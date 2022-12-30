@@ -1,0 +1,35 @@
+.logo {
+  width: 200rpx;
+  height: 180rpx;
+  margin-bottom: 20rpx;
+}
+
+.name {
+  font-size: 88rpx;
+  letter-spacing: 36rpx;
+  color: blueviolet;
+  text-shadow: #000 0 2rpx 8rpx;
+  animation: textLight 3s infinite;
+}
+
+@keyframes textLight {
+  0% {
+    color: rgb(67, 161, 255);
+    text-shadow: aquamarine 0 2rpx 8rpx;
+  }
+
+  30% {
+    color: rgb(216, 235, 255);
+    text-shadow: rgb(133, 255, 127) 0 2rpx 8rpx;
+  }
+
+  60% {
+    color: rgb(255, 122, 202);
+    text-shadow: rgb(39, 58, 52) 0 2rpx 8rpx;
+  }
+
+  100% {
+    color: rgb(133, 27, 255);
+    text-shadow: rgb(253, 114, 55) 0 2rpx 8rpx;
+  }
+}

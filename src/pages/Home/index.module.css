@@ -1,0 +1,19 @@
+.homeContainer {
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: url(http://assets.onlyy.vip/photos/dont-starve/bg_wilson_madscience.png) center/cover no-repeat;
+}
+
+.homeTitle {
+  font-size: 45rpx;
+  font-weight: bold;
+  margin: 20rpx 0;
+}
+
+.homeInfo {
+  font-size: 36rpx;
+  margin: 8rpx 0;
+  color: #555;
+}

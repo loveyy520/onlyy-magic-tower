@@ -1,0 +1,58 @@
+.card {
+  width: 100%;
+  height: calc(100% - 80rpx);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60rpx;
+}
+
+.role-properties {
+  height: 100%;
+  width: 60%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.role-life, .role-attack, .role-defense, .role-money, .role-property {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.role-property {
+  width: auto;
+  border-bottom: 1px dashed #000;
+}
+
+.property-name {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.property-value {
+  font-size: 32rpx;
+  color: blue;
+}
+
+.keys {
+  height: 100%;
+  width: 40%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.key {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.mr-50 {
+  margin-right: 50rpx;
+}

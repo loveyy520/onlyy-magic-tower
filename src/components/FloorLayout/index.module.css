@@ -1,0 +1,6 @@
+.floor {
+  width: 100vw;
+  height: 100vw;
+  background: #ccc;
+  border: 10rpx solid rgb(255, 202, 26);
+}

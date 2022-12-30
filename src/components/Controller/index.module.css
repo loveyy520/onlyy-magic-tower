@@ -1,0 +1,11 @@
+.controller {
+  height: calc(100% - 80rpx);
+  zoom: 3;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: aquamarine;
+  opacity: .7;
+}
