@@ -15,6 +15,7 @@
     "@alifd/meet": "^2.8.4",
     "@uni/application": "^1.0.7",
     "@uni/navigate": "^1.0.10",
+    "@uni/unit-tool": "^1.0.7",
     "rax": "^1.1.0",
     "rax-document": "^0.1.0",
     "rax-image": "^2.0.0",

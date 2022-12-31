@@ -1,0 +1,10 @@
+{
+  "routes": [{
+    "path": "/tower",
+    "source": "index",
+    "miniappPreloadRule": {
+      "network": "wifi",
+      "packages": ["index"] 
+    }
+  }]
+}

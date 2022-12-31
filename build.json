@@ -7,5 +7,6 @@
   "webpack5": true,
   "plugins": [
     "build-plugin-fusion-mobile"
-  ]
+  ],
+  "vendor": false
 }
