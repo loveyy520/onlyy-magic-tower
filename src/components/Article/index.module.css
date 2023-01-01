@@ -1,3 +1,52 @@
+
+.wall {
+  background-position: 0% 100%;
+}
+
+.weakWall {
+  background-position: 0% 90%;
+}
+
+.yellow-door {
+  background-position: 0% 0%;
+}
+
+.blue-door {
+  background-position: 0% 0%;
+}
+
+.red-door {
+  background-position: 0% 0%;
+}
+
+.iron-gate {
+  background-position: 0% 0%;
+}
+
+.magic-gate {
+  background-position: 0% 0%;
+}
+
+.yellow-key {
+  background-position: 5% 5%;
+}
+
+.blue-key {
+  background-position: 5% 5%;
+}
+
+.red-key {
+  background-position: 5% 5%;
+}
+
+.stair-up {
+  background-position: 5% 5%;
+}
+
+.stair-down {
+  background-position: 5% 5%;
+}
+
 /* 红宝石 */
 .ruby {
   background-position: 0% 0%;
@@ -6,4 +55,38 @@
 /* 蓝宝石 */
 .sapphire {
   background-position: 5% 5%;
+}
+
+.pink-potion {
+  background-position: 5% 5%;
+}
+
+.blue-potion {
+  background-position: 5% 5%;
+}
+
+.flying-cane {
+  background-position: 5% 5%;
+}
+
+/* 绿史莱姆 */
+.green-slim {
+  background-position: 0 0;
+}
+
+/* 小蝙蝠 */
+.little-bat {
+  background-position: 0 0;
+}
+
+.wizard-level1 {
+  background-position: 0 0;
+}
+
+.skeleton-man {
+  background-position: 0 0;
+}
+
+.skeleton-soldier {
+  background-position: 0 0;
 }

@@ -1,9 +1,8 @@
-import { WallType } from '@/types';
 /*
  * @Author: loveyy520 201357337@qq.com
  * @Date: 2023-01-01 11:27:30
  * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2023-01-01 14:12:07
+ * @LastEditTime: 2023-01-01 17:30:15
  * @FilePath: \magic-tower\src\utils\controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -44,7 +43,7 @@ const getObstacleMap: GetObstacleMap = (floorState) => {
     articles
   } = floorState
   const obstacleMap: ObstacleMap = {
-    wall: <WallType[]>walls,
+    wall: walls,
     weakWall: weakWalls,
     door: doors,
     stair: stairs,
@@ -81,18 +80,16 @@ const getObstacleHandlers:GetObstacleHandlers = () => ({
 
 const hasObstacle: HasObstacle = ([targetX, targetY], obstacles) => {
   const allObstacles = obstacles.reduce<Obstacle[]>((pre, cur) => {
-    const [x, yPos] = cur.position
-    if (typeof yPos === 'number') {
-      pre.push(cur)
-    } else {
-      pre.push(...yPos.map<Obstacle>((y) => ({ ...cur, position: [x, y] })))
-    }
+    const positions = cur.positions
+    pre.push(...positions.map(position => ({
+      ...cur, positions: [position]
+    })))
     return pre
   }, [])
-  const item = allObstacles.find((obstacle: Obstacle) =>
-    Array.isArray(obstacle)
-      ? obstacle[0] === targetX && obstacle[1] === targetY
-      : obstacle.position[0] === targetX && obstacle.position[1] === targetY)
+  const item = allObstacles.find((obstacle: Obstacle) => {
+    const [[x, y]] = obstacle.positions
+    return x === targetX && y === targetY
+  })
   return item
     ? [true, item]
     : [false]
