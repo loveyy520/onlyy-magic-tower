@@ -2,21 +2,22 @@
  * @Author: loveyy520 201357337@qq.com
  * @Date: 2022-12-31 11:01:50
  * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2023-01-01 21:21:11
+ * @LastEditTime: 2023-01-01 23:56:44
  * @FilePath: \magic-tower\src\types\articles.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { MonsterType } from "@/types"
 
 type EachMonster = ''
-interface Property {
+export interface Property {
   life: number,
   atk: number,
   def: number,
   gold: number
 }
 
-export type EachArticle = 'wall' | 'weakWall' | 'door' | 'stair' | 'monster' | 'NPC' | 'article'
+export type EachArticle = 
+  'wall' | 'weakWall' | 'door' | 'stair' | 'monster' | 'NPC' | 'key' | 'equipment' | 'potion' | 'gem' | 'treasure'
 
 export interface ArticleType {
   id: string,
@@ -27,6 +28,7 @@ export interface ArticleType {
   nextFloor?: number,
   nextStairPosition?: Position,
   monsterType?: EachMonster,
+  displayName?: string,
   property?: Property,
   npcType?: 'sage' | 'thief' | 'businessman' | 'princess',
   articleType?: 'power' | 'consumable' | 'permanent',

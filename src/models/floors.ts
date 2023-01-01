@@ -1,12 +1,12 @@
-import { FloorsState } from '@/types';
 /*
- * @Author: loveyy520 201357337@qq.com
- * @Date: 2022-12-31 10:12:55
+* @Author: loveyy520 201357337@qq.com
+* @Date: 2022-12-31 10:12:55
  * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2023-01-01 21:54:11
- * @FilePath: \magic-tower\src\models\floors.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
+ * @LastEditTime: 2023-01-02 01:42:52
+* @FilePath: \magic-tower\src\models\floors.ts
+* @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+*/
+import { FloorsState } from '@/types';
 const delay = (time: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), time));
 
 export const floors = {
@@ -66,6 +66,13 @@ export const floors = {
           positions: [
             [3, 11], [5, 11], [9, 1], [11, 1]
           ],
+          displayName: '绿史莱姆',
+          property: {
+            life: 35,
+            atk: 18,
+            def: 1,
+            gold: 1
+          }
         },
         {
           id: 'monster-1-2',
@@ -74,6 +81,13 @@ export const floors = {
           positions: [
             [4, 11]
           ],
+          displayName: '红史莱姆',
+          property: {
+            life: 45,
+            atk: 20,
+            def: 2,
+            gold: 2
+          }
         },
         {
           id: 'monster-1-3',
@@ -82,6 +96,13 @@ export const floors = {
           positions: [
             [7, 6], [9, 6], [10, 2]
           ],
+          displayName: '小蝙蝠',
+          property: {
+            life: 35,
+            atk: 38,
+            def: 3,
+            gold: 3
+          }
         },
         {
           id: 'monster-1-4',
@@ -90,6 +111,13 @@ export const floors = {
           positions: [
             [8, 6]
           ],
+          displayName: '初级巫师',
+          property: {
+            life: 60,
+            atk: 32,
+            def: 8,
+            gold: 5
+          }
         },
         {
           id: 'monster-1-5',
@@ -98,6 +126,13 @@ export const floors = {
           positions: [
             [2, 8]
           ],
+          displayName: '骷髅人',
+          property: {
+            life: 50,
+            atk: 42,
+            def: 6,
+            gold: 6
+          }
         },
         {
           id: 'monster-1-6',
@@ -106,22 +141,30 @@ export const floors = {
           positions: [
             [2, 5]
           ],
+          displayName: '骷髅士兵',
+          property: {
+            life: 55,
+            atk: 52,
+            def: 12,
+            gold: 8
+          }
         },
       ],
       articles: [
         {
           id: 'article-1-1',
           name: 'yellow-key',
-          type: 'article',
+          type: 'key',
           positions: [
             [1, 6], [3, 1], [3, 2],
             [5, 2], [8, 9]
-          ]
+          ],
+          displayName: '黄钥匙'
         },
         {
           id: 'article-1-2',
           name: 'pink-potion',
-          type: 'article',
+          type: 'potion',
           positions: [
             [1, 1], [1, 2], [1, 9], [8, 8]
           ],
@@ -132,7 +175,7 @@ export const floors = {
         {
           id: 'article-1-3',
           name: 'blue-potion',
-          type: 'article',
+          type: 'potion',
           positions: [
             [10, 1]
           ],
@@ -143,7 +186,7 @@ export const floors = {
         {
           id: 'article-1-4',
           name: 'ruby',
-          type: 'article',
+          type: 'gem',
           positions: [
             [7, 9]
           ],
@@ -154,7 +197,7 @@ export const floors = {
         {
           id: 'article-1-5',
           name: 'sapphire',
-          type: 'article',
+          type: 'gem',
           positions: [
             [7, 8]
           ],
@@ -165,10 +208,11 @@ export const floors = {
         {
           id: 'article-1-6',
           name: 'flying-cane',
-          type: 'article',
+          type: 'treasure',
           positions: [
             [2, 1]
-          ]
+          ],
+          displayName: '飞行手杖'
         }
       ],
       npc: []
@@ -245,13 +289,20 @@ export const floors = {
           positions: [
             [6, 10], [8, 10]
           ],
+          displayName: '中级守卫',
+          property: {
+            life: 100,
+            atk: 180,
+            def: 110,
+            gold: 50
+          }
         },
       ],
       articles: [
         {
           id: 'article-2-1',
           name: 'yellow-key',
-          type: 'article',
+          type: 'key',
           positions: [
             [3, 7], [3, 8], [4, 8]
           ]
@@ -259,7 +310,7 @@ export const floors = {
         {
           id: 'article-2-2',
           name: 'blue-potion',
-          type: 'article',
+          type: 'potion',
           positions: [
             [3, 1], [3, 2], [4, 2]
           ],

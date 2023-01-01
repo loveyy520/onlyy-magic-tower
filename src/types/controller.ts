@@ -8,8 +8,15 @@ import {
   MonsterType,
   NpcType,
   ArticleType,
-  Position
+  Position,
+  FloorState,
+  Properties,
+  Property,
+  WarriorState
 } from "./index"
+
+export type UpdateWarrior = IRootDispatch['warrior']['update']
+export type UpdateFloors = IRootDispatch['floors']['update']
 
 export interface ObstacleMap {
   wall: WallType[],
@@ -22,8 +29,8 @@ export interface ObstacleMap {
 }
 
 export type HandleArticle = (
-    updateWarrior: IRootDispatch['warrior']['update'],
-    updateFloors: IRootDispatch['floors']['update'],
+    updateWarrior: UpdateWarrior,
+    updateFloors: UpdateFloors,
     article: ArticleType,
     floorState: IRootState['floors'][1],
     warriorState: IRootState['warrior']
@@ -39,10 +46,10 @@ export type HandleMove = (
     position: Position,
     floorState: IRootState['floors'][1],
     warriorState: IRootState['warrior'],
-    updateFloors: IRootDispatch['floors']['update'],
-    updateWarrior: IRootDispatch['warrior']['update']
+    updateFloors: UpdateFloors,
+    updateWarrior: UpdateWarrior
   ) =>  void
-export type MoveTo = (position: Position, updateWarrior: IRootDispatch['warrior']['update']) => void
+export type MoveTo = (position: Position, updateWarrior: UpdateWarrior) => void
 
 export interface ObstacleHandlers {
   wall: HandleArticle,
@@ -56,3 +63,19 @@ export interface ObstacleHandlers {
 
 export type ValidatePositionResult = [boolean] | [false, Obstacle, string]
 export type ObstacleJudgement = [false] | [true, Obstacle]
+
+export interface FightingParams {
+  round: number,
+  injury: number,
+  gold: number,
+  enemyName: string,
+  warriorProperty: Properties,
+  updateWarrior: UpdateWarrior
+}
+
+export type SetMessage = (msg: string, updateWarrior: UpdateWarrior) => void
+
+export type Fight = (params: FightingParams) => Promise<void>
+
+export type RemoveArticle = (article: ArticleType, floor: number, floorState: FloorState, updateFloors: UpdateFloors) => void
+export type EnhanceAbility = (property: Property, warriorState: WarriorState, updateWarrior: UpdateWarrior) => void

@@ -14,135 +14,27 @@ export const warrior = {
     floor: 1,
     msg: '你获得了1把黄钥匙.',
     position: [2, 11], // 以左边和下边作为y轴和x轴
-    sword: 'holy-sword',
-    shield: 'holy-shield',
+    equipments: {
+      sword: 'holy-sword',
+      shield: 'holy-shield',
+    },
     keys: {
       yellow: 5,
       blue: 2,
       red: 1
     },
-    treasure: [
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
+    treasures: {
+      'monster-manual': {
+        displayName: '怪物手册',
         count: 0,
         consumable: false
       },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
+      'flying-cane': {
+        displayName: '飞行手杖',
         count: 0,
         consumable: false
-      },
-      {
-        id: 'flying-cane',
-        name: '飞行手杖',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      {
-        id: 'monster-manual',
-        name: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-    ]
+      }
+    },
   },
 
   // 定义改变该模型状态的纯函数
