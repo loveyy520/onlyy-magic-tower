@@ -8,7 +8,7 @@ import {
   MonsterType,
   NpcType,
   ArticleType,
-  SinglePosition
+  Position
 } from "./index"
 
 export interface ObstacleMap {
@@ -21,34 +21,36 @@ export interface ObstacleMap {
   article: ArticleType[]
 }
 
-export type HandleWall = (wall: WallType) => void
-export type HandleWeakWall = (weakWall:WeakWallType) => void
-export type HandleDoor = (door: DoorType) => void
-export type HandleStair = (stair: StairType) => void
-export type HandleMonster = (monster: MonsterType) => void
-export type HandleNPC = (NPC: NpcType) => void
-export type HandleArticle = (article: ArticleType) => void
+export type HandleArticle = (
+    updateWarrior: IRootDispatch['warrior']['update'],
+    updateFloors: IRootDispatch['floors']['update'],
+    article: ArticleType,
+    floorState: IRootState['floors'][1],
+    warriorState: IRootState['warrior']
+  ) => void
 export type GetObstacleMap = (floorState: IRootState['floors'][1]) => ObstacleMap
 export type GetObstacleHandlers = () => ObstacleHandlers
 export type ValidatePosition = (
-    position: SinglePosition,
+    position: Position,
     obstaclesMap: ObstacleMap
   ) => ValidatePositionResult
-export type HasObstacle = (position: SinglePosition, obstacles: Obstacle[]) => ObstacleJudgement
+export type HasObstacle = (position: Position, obstacles: Obstacle[]) => ObstacleJudgement
 export type HandleMove = (
-    position: SinglePosition,
+    position: Position,
     floorState: IRootState['floors'][1],
+    warriorState: IRootState['warrior'],
+    updateFloors: IRootDispatch['floors']['update'],
     updateWarrior: IRootDispatch['warrior']['update']
   ) =>  void
-export type MoveTo = (position: SinglePosition, updateWarrior: IRootDispatch['warrior']['update']) => void
+export type MoveTo = (position: Position, updateWarrior: IRootDispatch['warrior']['update']) => void
 
 export interface ObstacleHandlers {
-  wall: HandleWall,
-  weakWall: HandleWeakWall,
-  door: HandleDoor,
-  stair: HandleStair,
-  monster: HandleMonster,
-  NPC: HandleNPC,
+  wall: HandleArticle,
+  weakWall: HandleArticle,
+  door: HandleArticle,
+  stair: HandleArticle,
+  monster: HandleArticle,
+  NPC: HandleArticle,
   article: HandleArticle
 }
 

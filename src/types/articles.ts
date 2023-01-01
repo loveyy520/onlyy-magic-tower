@@ -2,7 +2,7 @@
  * @Author: loveyy520 201357337@qq.com
  * @Date: 2022-12-31 11:01:50
  * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2023-01-01 17:06:37
+ * @LastEditTime: 2023-01-01 21:21:11
  * @FilePath: \magic-tower\src\types\articles.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -24,7 +24,8 @@ export interface ArticleType {
   type: EachArticle,
   positions: Position[],
   doorType?: 'yellow' | 'blue' | 'red' | 'steel' | 'magic',
-  nextStair?: number,
+  nextFloor?: number,
+  nextStairPosition?: Position,
   monsterType?: EachMonster,
   property?: Property,
   npcType?: 'sage' | 'thief' | 'businessman' | 'princess',

@@ -1,23 +1,26 @@
 /*
  * @Author: loveyy520 201357337@qq.com
- * @Date: 2022-12-30 23:24:40
+ * @Date: 2023-01-01 18:43:11
  * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2023-01-01 18:45:59
- * @FilePath: \rax-example\src\components\Controller\index.tsx
+ * @LastEditTime: 2023-01-01 20:52:50
+ * @FilePath: \magic-tower\src\components\Message\index.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { createElement } from 'rax';
 import View from 'rax-view';
-import Text from 'rax-text';
+
 import styles from './index.module.css'
-export function Controller() {
+
+interface MessageProps {
+  msg: string
+}
+
+export function Message({ msg }: MessageProps) {
   return (
-    <View className={styles.controller}>
-      <Text>
-        Controller
-      </Text>
+    <View className={styles.msg}>
+      {msg}
     </View>
   );
 }
 
-export default Controller;
+export default Message;

@@ -1,8 +1,9 @@
+import {WarriorState} from '@/types'
+
 export const delay = (time: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), time));
-import { Position } from "@/types";
-export default {
+export const warrior = {
   // 定义 model 的初始 state
-  state: {
+  state: <WarriorState>{
     properties: {
       name: '',
       life: 1000,
@@ -11,7 +12,8 @@ export default {
       gold: 0
     },
     floor: 1,
-    position: <Position>[6, 1], // 以左边和下边作为y轴和x轴
+    msg: '你获得了1把黄钥匙.',
+    position: [2, 11], // 以左边和下边作为y轴和x轴
     sword: 'holy-sword',
     shield: 'holy-shield',
     keys: {

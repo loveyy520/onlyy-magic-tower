@@ -2,7 +2,7 @@
  * @Author: loveyy520 201357337@qq.com
  * @Date: 2022-12-29 13:52:21
  * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2022-12-31 11:13:48
+ * @LastEditTime: 2023-01-01 18:46:06
  * @FilePath: \rax-example\src\components\Card\index.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -20,7 +20,7 @@ interface Props {
   keys: Keys
 }
 
-function Card({ properties, keys }: Props) {
+export function Card({ properties, keys }: Props) {
   const propertyConfig = [
     {
       className: 'role-life',
