@@ -1,12 +1,11 @@
-import { Properties, ArticleType } from '@/types';
-/*
- * @Author: loveyy520 201357337@qq.com
+/* @Author: loveyy520 201357337@qq.com
  * @Date: 2023-01-01 11:27:30
  * @LastEditors: loveyy520 201357337@qq.com
  * @LastEditTime: 2023-01-02 01:49:55
  * @FilePath: \magic-tower\src\utils\controller.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
+import propertyData from '@/article_property'
 import {
   HandleMove,
   MoveTo,
@@ -20,7 +19,10 @@ import {
   SetMessage,
   Fight,
   RemoveArticle,
-  EnhanceAbility
+  EnhanceAbility,
+  GainArticle,
+  ArticleType,
+  Property
  } from "@/types"
 
 export const handleMove: HandleMove = (position, floorState, warriorState, updateFloors, updateWarrior) => {
@@ -136,7 +138,7 @@ const handleStair: HandleArticle = (updateWarrior, updateFloors, stair, floorSta
   }, 0)
 }
 const handleMonster: HandleArticle = async(updateWarrior, updateFloors, monster, floorState, warriorState) => {
-  const {atk, def, life, gold} = monster.property!
+  const {atk, def, life, gold, displayName} = <Property>propertyData[monster.name]
   const {attack, defense, life: warriorLife} = warriorState.properties
   const damage = attack - def
   if(damage <= 0)  return setMessage('你还不能打败它.', updateWarrior)
@@ -145,14 +147,14 @@ const handleMonster: HandleArticle = async(updateWarrior, updateFloors, monster,
   const canBeat = warriorLife > injury * (round - 1)
   if(!canBeat) return setMessage('你还不能打败它.', updateWarrior)
   moveTo(monster.positions[0], updateWarrior)
-  const fightingParams = {round, injury, gold, enemyName: monster.displayName!, warriorProperty: warriorState.properties, updateWarrior}
+  const fightingParams = {round, injury, gold, enemyName: displayName!, warriorProperty: warriorState.properties, updateWarrior}
   await fight(fightingParams)
   removeArticle(monster, warriorState.floor, floorState, updateFloors)
 }
 const handleNPC: HandleArticle = (updateWarrior, updateFloors, NPC, warriorState, floorState) => null
 const handleArticle: HandleArticle = (updateWarrior, updateFloors, article, floorState, warriorState) => {
   if(['potion', 'gem'].includes(article.type)) {
-    enhanceAbility(article.property!, warriorState, updateWarrior)
+    enhanceAbility(article.name, warriorState, updateWarrior)
   } else {
     gainArticle(article, warriorState, updateWarrior)
   }
@@ -209,8 +211,9 @@ const removeArticle: RemoveArticle = (article, floor, floorState, updateFloors) 
   })
 }
 
-const enhanceAbility: EnhanceAbility = (property, warriorState, updateWarrior) => {
-  const {life = 0, atk = 0, def = 0, gold = 0} = property
+const enhanceAbility: EnhanceAbility = (articleName, warriorState, updateWarrior) => {
+  const level = Math.floor(warriorState.floor / 10)
+  const {life = 0, atk = 0, def = 0, gold = 0, displayName} = <Property>(propertyData[articleName][level])
   const {life: warriorLife, attack, defense, gold: warriorGold} = warriorState.properties
   let value: number, propertyName: string
   switch(true) {
@@ -242,23 +245,36 @@ const enhanceAbility: EnhanceAbility = (property, warriorState, updateWarrior) =
       defense: defense + def,
       gold: warriorGold + gold
     },
-    msg: `你获得了${value}${propertyName}`
+    msg: `你获得了${displayName},增加了${value}点${propertyName}.`
   })
 }
 
-const gainArticle = (article, warriorState, updateWarrior) => {
+const gainArticle: GainArticle = (article, warriorState, updateWarrior) => {
   switch(article.type) {
     case 'equipment':
-      const {property, displayName} = article
-      const atk = property.atk
-      const prop = atk ? 'attack' : 'defense'
-      const articleProp = atk ? 'atk' : 'def'
+      const property = <Property>propertyData[article.name]
+      const {displayName} = property
+      let value: number,
+        propName: '攻击力' | '防御力',
+        articleProp: 'atk' | 'def',
+        prop: 'attack' | 'defense'
+      if(property.atk) {
+        value = property.atk
+        propName = '攻击力',
+        articleProp = 'atk'
+        prop = 'attack'
+      } else {
+        value = property.def
+        propName = '防御力'
+        articleProp = 'def'
+        prop = 'defense'
+      }
       updateWarrior({
         properties: {
           ...warriorState.properties,
           [prop]: property[articleProp] + warriorState.properties[prop]
         },
-        msg: `你获得了${displayName}.`
+        msg: `你获得了${displayName},增加了${value}点${propName}.`
       })
       break
     case 'key':
@@ -278,7 +294,7 @@ const gainArticle = (article, warriorState, updateWarrior) => {
           ...warriorState.treasures,
           [treasureName]: {
             ...warriorState.treasures[treasureName],
-            count: warriorState.treasures[treasureName] + 1
+            count: warriorState.treasures[treasureName].count + 1
           }
         },
         msg: `你获得了${article.displayName}.`

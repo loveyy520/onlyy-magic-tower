@@ -77,5 +77,6 @@ export type SetMessage = (msg: string, updateWarrior: UpdateWarrior) => void
 
 export type Fight = (params: FightingParams) => Promise<void>
 
+export type GainArticle = (article: ArticleType, warriorState: WarriorState, updateWarrior: UpdateWarrior) => void
 export type RemoveArticle = (article: ArticleType, floor: number, floorState: FloorState, updateFloors: UpdateFloors) => void
-export type EnhanceAbility = (property: Property, warriorState: WarriorState, updateWarrior: UpdateWarrior) => void
+export type EnhanceAbility = (ariticleName: string, warriorState: WarriorState, updateWarrior: UpdateWarrior) => void

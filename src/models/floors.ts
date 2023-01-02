@@ -2,7 +2,7 @@
 * @Author: loveyy520 201357337@qq.com
 * @Date: 2022-12-31 10:12:55
  * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2023-01-02 01:42:52
+ * @LastEditTime: 2023-01-02 13:09:04
 * @FilePath: \magic-tower\src\models\floors.ts
 * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 */
@@ -66,13 +66,6 @@ export const floors = {
           positions: [
             [3, 11], [5, 11], [9, 1], [11, 1]
           ],
-          displayName: '绿史莱姆',
-          property: {
-            life: 35,
-            atk: 18,
-            def: 1,
-            gold: 1
-          }
         },
         {
           id: 'monster-1-2',
@@ -81,13 +74,6 @@ export const floors = {
           positions: [
             [4, 11]
           ],
-          displayName: '红史莱姆',
-          property: {
-            life: 45,
-            atk: 20,
-            def: 2,
-            gold: 2
-          }
         },
         {
           id: 'monster-1-3',
@@ -96,13 +82,6 @@ export const floors = {
           positions: [
             [7, 6], [9, 6], [10, 2]
           ],
-          displayName: '小蝙蝠',
-          property: {
-            life: 35,
-            atk: 38,
-            def: 3,
-            gold: 3
-          }
         },
         {
           id: 'monster-1-4',
@@ -110,14 +89,7 @@ export const floors = {
           type: 'monster',
           positions: [
             [8, 6]
-          ],
-          displayName: '初级巫师',
-          property: {
-            life: 60,
-            atk: 32,
-            def: 8,
-            gold: 5
-          }
+          ]
         },
         {
           id: 'monster-1-5',
@@ -126,13 +98,6 @@ export const floors = {
           positions: [
             [2, 8]
           ],
-          displayName: '骷髅人',
-          property: {
-            life: 50,
-            atk: 42,
-            def: 6,
-            gold: 6
-          }
         },
         {
           id: 'monster-1-6',
@@ -140,14 +105,7 @@ export const floors = {
           type: 'monster',
           positions: [
             [2, 5]
-          ],
-          displayName: '骷髅士兵',
-          property: {
-            life: 55,
-            atk: 52,
-            def: 12,
-            gold: 8
-          }
+          ]
         },
       ],
       articles: [
@@ -163,14 +121,11 @@ export const floors = {
         },
         {
           id: 'article-1-2',
-          name: 'pink-potion',
+          name: 'red-potion',
           type: 'potion',
           positions: [
             [1, 1], [1, 2], [1, 9], [8, 8]
-          ],
-          property: {
-            life: 50
-          }
+          ]
         },
         {
           id: 'article-1-3',
@@ -178,10 +133,7 @@ export const floors = {
           type: 'potion',
           positions: [
             [10, 1]
-          ],
-          property: {
-            life: 100
-          }
+          ]
         },
         {
           id: 'article-1-4',
@@ -189,10 +141,7 @@ export const floors = {
           type: 'gem',
           positions: [
             [7, 9]
-          ],
-          property: {
-            atk: 1
-          }
+          ]
         },
         {
           id: 'article-1-5',
@@ -200,10 +149,7 @@ export const floors = {
           type: 'gem',
           positions: [
             [7, 8]
-          ],
-          property: {
-            def: 1
-          }
+          ]
         },
         {
           id: 'article-1-6',
@@ -277,8 +223,8 @@ export const floors = {
           positions: [
             [1, 1]
           ],
-          nextFloor: 1,
-          nextStairPosition: [1, 2]
+          nextFloor: 3,
+          nextStairPosition: [2, 1]
         }
       ],
       monsters: [
@@ -288,14 +234,7 @@ export const floors = {
           type: 'monster',
           positions: [
             [6, 10], [8, 10]
-          ],
-          displayName: '中级守卫',
-          property: {
-            life: 100,
-            atk: 180,
-            def: 110,
-            gold: 50
-          }
+          ]
         },
       ],
       articles: [
@@ -313,10 +252,151 @@ export const floors = {
           type: 'potion',
           positions: [
             [3, 1], [3, 2], [4, 2]
+          ]
+        },
+      ],
+      npc: [
+        {
+          id: 'npc-2-1',
+          name: 'thief',
+          type: 'NPC',
+          npcType: 'thief',
+          positions: [
+            [3, 5]
           ],
-          property: {
-            life: 100
-          }
+        },
+        {
+          id: 'npc-2-2',
+          name: 'businessman',
+          type: 'NPC',
+          npcType: 'businessman',
+          positions: [
+            [11, 5]
+          ]
+        },
+        {
+          id: 'npc-2-3',
+          name: 'sage',
+          type: 'NPC',
+          npcType: 'sage',
+          positions: [
+            [11, 8]
+          ]
+        }
+      ]
+    },
+    3: {
+      walls: [
+        {
+          id: 'wall-3-1',
+          name: 'wall',
+          type: 'wall',
+          positions: [
+            [1, 2],
+            [2, 2],[2, 6], [2, 8],
+            [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 8], [3, 9], [3, 10], [3, 11],
+            [4, 2], [4, 5], [4, 8],
+            [6, 2], [6, 5], [6, 8],
+            [7, 1], [7, 2], [7, 3], [7, 4], [7, 5], [7, 6], [7, 8], [7, 9], [7, 10], [7, 11],
+            [9, 2], [9, 3], [9, 5], [9, 6], [9, 8], [9, 9], [9, 11],
+            [10, 3], [10, 6], [10, 9],
+            [11, 3], [11, 6], [11, 9],
+          ],
+        },
+      ],
+      weakWalls: [],
+      doors: [
+        {
+          id: 'door-3-1',
+          name: 'yellow-door',
+          type: 'door',
+          positions: [
+            [1, 6], [1, 8],
+            [9, 1], [9, 4], [9, 10]
+          ],
+          doorType: 'yellow'
+        }
+      ],
+      stairs: [
+        {
+          id: 'stair-3-1',
+          name: 'stair-down',
+          type: 'stair',
+          positions: [
+            [1, 1]
+          ],
+          nextFloor: 2,
+          nextStairPosition: [1, 2]
+        },
+        {
+          id: 'stair-3-2',
+          name: 'stair-up',
+          type: 'stair',
+          positions: [
+            [11, 1]
+          ],
+          nextFloor: 4,
+          nextStairPosition: [11, 2]
+        }
+      ],
+      monsters: [
+        {
+          id: 'monster-3-1',
+          name: 'green-slim',
+          type: 'monster',
+          positions: [
+            [7, 7]
+          ]
+        },
+        {
+          id: 'monster-3-2',
+          name: 'red-slim',
+          type: 'monster',
+          positions: [
+            [8, 2]
+          ]
+        },
+        {
+          id: 'monster-1-3',
+          name: 'little-bat',
+          type: 'monster',
+          positions: [
+            [3, 7], [10, 10]
+          ]
+        },
+        {
+          id: 'monster-1-4',
+          name: 'junior-wizard',
+          type: 'monster',
+          positions: [
+            [1, 9], [10, 4]
+          ]
+        },
+        {
+          id: 'monster-1-5',
+          name: 'skeleton-man',
+          type: 'monster',
+          positions: [
+            [1, 5]
+          ]
+        },
+      ],
+      articles: [
+        {
+          id: 'article-2-1',
+          name: 'yellow-key',
+          type: 'key',
+          positions: [
+            [3, 7], [3, 8], [4, 8]
+          ]
+        },
+        {
+          id: 'article-2-2',
+          name: 'blue-potion',
+          type: 'potion',
+          positions: [
+            [3, 1], [3, 2], [4, 2]
+          ]
         },
       ],
       npc: [
