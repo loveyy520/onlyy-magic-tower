@@ -18,10 +18,8 @@ const models: IAppStoreModels = {
   warrior,
   floors
 }
-console.log('beforeStore');
 
 const store = createStore(models);
-console.log('afterStore');
 
 export default store;
 

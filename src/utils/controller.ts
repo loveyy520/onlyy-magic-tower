@@ -212,7 +212,7 @@ const removeArticle: RemoveArticle = (article, floor, floorState, updateFloors) 
 }
 
 const enhanceAbility: EnhanceAbility = (articleName, warriorState, updateWarrior) => {
-  const level = Math.floor(warriorState.floor / 10)
+  const level = Math.ceil(warriorState.floor / 10) - 1
   const {life = 0, atk = 0, def = 0, gold = 0, displayName} = <Property>(propertyData[articleName][level])
   const {life: warriorLife, attack, defense, gold: warriorGold} = warriorState.properties
   let value: number, propertyName: string

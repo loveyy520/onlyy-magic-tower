@@ -3,7 +3,7 @@
   background-position: 0% 100%;
 }
 
-.weakWall {
+.weak-wall {
   background-position: 0% 90%;
 }
 
@@ -69,6 +69,18 @@
   background-position: 5% 5%;
 }
 
+.notebook {
+  background-position: 35% 35%;
+}
+
+.iron-sword {
+  background-position: 30% 30%;
+}
+
+.iron-shield {
+  background-position: 20% 20%;
+}
+
 /* 绿史莱姆 */
 .green-slim {
   background-position: 0 0;
@@ -89,4 +101,16 @@
 
 .skeleton-soldier {
   background-position: 0 0;
+}
+
+.junior-guard {
+  background-position: 50% 50%;
+}
+
+.intermediate-guard {
+  background-position: 50% 10%;
+}
+
+.skeleton-captain {
+  background-position: 20% 10%;
 }

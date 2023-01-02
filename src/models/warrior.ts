@@ -1,3 +1,11 @@
+/*
+ * @Author: loveyy520 201357337@qq.com
+ * @Date: 2022-12-31 09:47:24
+ * @LastEditors: loveyy520 201357337@qq.com
+ * @LastEditTime: 2023-01-02 19:55:58
+ * @FilePath: \magic-tower\src\models\warrior.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import {WarriorState} from '@/types'
 
 export const delay = (time: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), time));
@@ -11,9 +19,9 @@ export const warrior = {
       defense: 100,
       gold: 0
     },
-    floor: 1,
+    floor: 9,
     msg: '你获得了1把黄钥匙.',
-    position: [2, 11], // 以左边和下边作为y轴和x轴
+    position: [6, 10], // 以左边和下边作为y轴和x轴
     equipments: {
       sword: 'holy-sword',
       shield: 'holy-shield',
@@ -31,6 +39,11 @@ export const warrior = {
       },
       'flying-cane': {
         displayName: '飞行手杖',
+        count: 0,
+        consumable: false
+      },
+      notebook: {
+        displayName: '记事本',
         count: 0,
         consumable: false
       }
