@@ -6,40 +6,43 @@
  * @FilePath: \magic-tower\src\types\floors.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { 
-    WallType,
-    WeakWallType,
-    DoorType,
-    StairType,
-    MonsterType,
-    ArticleType,
-    NpcType
-  } from './index';
+import { WallType, WeakWallType, DoorType, StairType, MonsterType, ArticleType, NpcType } from './index';
 
 export interface FloorState {
-  walls: WallType[],
-  weakWalls: WeakWallType[],
-  doors: DoorType[],
-  stairs: StairType[],
-  monsters: MonsterType[],
-  articles: ArticleType[],
-  npc: NpcType[]
+  walls: WallType[];
+  weakWalls: WeakWallType[];
+  doors: DoorType[];
+  stairs: StairType[];
+  monsters: MonsterType[];
+  articles: ArticleType[];
+  npcs: NpcType[];
 }
 
 interface PartialFloorState {
-  walls?: WallType[],
-  weakWalls?: WeakWallType[],
-  doors?: DoorType[],
-  stairs?: StairType[],
-  monsters?: MonsterType[],
-  articles?: ArticleType[],
-  npc?: NpcType[]
-}
-
-export interface FloorsState {
-  [index: number]: FloorState
+  walls?: WallType[];
+  weakWalls?: WeakWallType[];
+  doors?: DoorType[];
+  stairs?: StairType[];
+  monsters?: MonsterType[];
+  articles?: ArticleType[];
+  npc?: NpcType[];
 }
 
 export interface PartialFloorsState {
-  [index: number]: PartialFloorState
+  [index: number]: PartialFloorState;
+}
+
+export interface Goods {
+  name: string;
+  displayName: string;
+  type: 'properties' | 'keys' | 'treasures';
+  subType: string;
+  count: number;
+  cost: number;
+  bgColor?: string;
+}
+
+export interface DialogContent {
+  conversations: string[];
+  selections?: Goods[];
 }

@@ -2,24 +2,25 @@
  * @Author: loveyy520 201357337@qq.com
  * @Date: 2022-12-30 22:05:27
  * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2023-01-01 20:53:26
+ * @LastEditTime: 2023-01-05 13:05:52
  * @FilePath: \rax-example\src\components\PropertyPanel\index.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import { createElement } from 'rax';
 import View from 'rax-view';
 import Text from 'rax-text';
-import { Icon } from "@alifd/meet";
-import { Controller, Card, Message } from '@/components'
+import { Icon } from '@alifd/meet';
+import { Controller, Card, Message, Treasures } from '@/components';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
-import { Properties, Keys } from '@/types'
+import { Properties, Keys } from '@/types';
+
 interface Props {
-  properties: Properties,
-  floor: number,
-  keys: Keys,
-  msg: string
+  properties: Properties;
+  floor: number;
+  keys: Keys;
+  msg: string;
 }
 
 export function PropertyPanel({ properties, floor, keys, msg }: Props) {
@@ -33,8 +34,9 @@ export function PropertyPanel({ properties, floor, keys, msg }: Props) {
           <Icon size="large" type="list" style={{ color: '#333' }} />
         </View>
       </View>
+      <Treasures />
       <Card properties={properties} keys={keys} />
-      <Controller></Controller>
+      <Controller />
     </View>
   );
 }

@@ -8,15 +8,15 @@
  */
 import { createElement } from 'rax';
 import View from 'rax-view';
-import { Position } from "@/types";
+import { Position } from '@/types';
 
-import styles from './index.module.css'
+import styles from './index.module.css';
 
 interface ArticleProps {
-  id: string,
-  positions: Position[],
-  name: string,
-  unitSize: number
+  id: string;
+  positions: Position[];
+  name: string;
+  unitSize: number;
 }
 
 export function Article({ id, name, positions, unitSize }: ArticleProps) {
@@ -28,9 +28,9 @@ export function Article({ id, name, positions, unitSize }: ArticleProps) {
           key={`${id}-${i}`}
           style={{
             left: `${(x - 1) * unitSize}rpx;`,
-            bottom: `${(y - 1) * unitSize}rpx;`
-          }}>
-        </View>
+            bottom: `${(y - 1) * unitSize}rpx;`,
+          }}
+        />
       ))}
     </>
   );

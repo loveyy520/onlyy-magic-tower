@@ -1,0 +1,47 @@
+.dialog {
+  max-height: 800rpx;
+  width: calc(100% - 64rpx);
+  position: absolute;
+  top: 200rpx;
+  left: 32rpx;
+  z-index: 120;
+  padding: 20rpx 20rpx;
+  background-color: rgba(33, 48, 43, 0.826);
+  border-radius: 20rpx;
+  border: 5rpx solid rgb(253, 253, 253);
+  box-shadow: #000 0 0 8rpx;
+}
+
+.pb-130 {
+  padding-bottom: 130rpx;
+}
+
+.avator {
+  width: 64rpx;
+  height: 64rpx;
+  background: #fff;
+}
+
+.text {
+  color: #fff;
+  margin-top: 10rpx;
+  word-break: break-all;
+  overflow-y: scroll;
+}
+
+.button {
+  position: absolute;
+  bottom: 30rpx;
+  right: 30rpx;
+  color: rgb(22, 16, 43);
+  font-weight: bold;
+  letter-spacing: 0.1em;
+}
+
+.selection {
+  margin: 20rpx 20rpx 20rpx 0;
+}
+
+.exit-button {
+  background-color: #00bcd4;
+}

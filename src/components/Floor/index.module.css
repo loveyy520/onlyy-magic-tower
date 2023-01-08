@@ -4,6 +4,8 @@
   position: relative;
   background: url(https://assets.onlyy.vip/photos/magic-tower/floor.png) repeat;
   background-size: 62rpx 62rpx;
+  /* background: url(https://assets.onlyy.vip/photos/magic-tower/sprites.jpg); */
+  /* background-size: 680rpx 1171rpx; */
   border: 34rpx solid #8f8fc1;
   /* border-image: url(https://assets.onlyy.vip/photos/magic-tower/blue-wall.png) repeat; */
   /* border-image-repeat: no-repeat; */

@@ -6,49 +6,36 @@
  * @FilePath: \rax-example\src\components\Floor\index.tsx
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { createElement } from 'rax';
+import { createElement, useState } from 'rax';
 import View from 'rax-view';
-import store, { IRootDispatch, IRootState } from "@/store";
+import store, { IRootDispatch, IRootState } from '@/store';
 import { px2rpx } from '@uni/unit-tool';
-import styles from './index.module.css'
+import styles from './index.module.css';
 import {
   Warrior,
-  Article
-} from '@/components'
-import { handleMove } from '@/utils'
+  Article,
+  Dialog,
+} from '@/components';
+import { handleMove } from '@/utils';
 
 import {
   ArticleType,
   Position,
-} from '@/types'
+  DialogContent,
+  NpcType,
+} from '@/types';
 
 interface Props {
-  warriorState: IRootState['warrior'],
-  updateWarrior: IRootDispatch['warrior']['update'],
-  unitSize: number
+  warriorState: IRootState['warrior'];
+  updateWarrior: IRootDispatch['warrior']['update'];
+  unitSize: number;
 }
 
-function Floor({ warriorState, unitSize, updateWarrior }: Props) {
-  const [floors, { update: updateFloors }] = store.useModel('floors')
-
-  const { walls, weakWalls, monsters, doors, stairs, articles, npc } = floors[warriorState.floor]
-  const currentFloor = floors[warriorState.floor]
-  const handleFloorClick = (e: TouchEvent) => {
-    const [x, y] = warriorState.position as Position
-    let { clientX, clientY } = e.touches[0]
-    // 外边框 34rpx ， 一个单元格 62rpx
-    clientX = Math.ceil((px2rpx(clientX) - 34) / 62)
-    clientY = Math.ceil((716 - px2rpx(clientY)) / 62)
-    const movingHorizontally = Math.abs(clientX - x) >= Math.abs(clientY - y)
-    let newPosition: Position
-    if (movingHorizontally) {
-      newPosition = clientX > x ? [x + 1, y] : clientX === x ? [x, y] : [x - 1, y]
-    } else {
-      newPosition = clientY > y ? [x, y + 1] : clientY === y ? [x, y] : [x, y - 1]
-    }
-
-    handleMove(newPosition, currentFloor, warriorState, updateFloors, updateWarrior)
-  }
+export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
+  const [dialogVisible, toggleDialog] = useState(true);
+  // const [floor, setFloor] = useState(1);
+  const [floorState, { update: updateFloorState }] = store.useModel(`floor${warriorState.floor}`);
+  const { walls, weakWalls, monsters, doors, stairs, articles, npcs } = floorState;
   const allArticles: ArticleType[] = [
     ...walls,
     ...weakWalls,
@@ -56,29 +43,68 @@ function Floor({ warriorState, unitSize, updateWarrior }: Props) {
     ...doors,
     ...stairs,
     ...monsters,
-    ...npc
-  ]
+    ...npcs,
+  ];
 
+  const initNpc = (): NpcType | undefined => undefined;
+  const [currentNpc, setNpcState] = useState(initNpc);
+
+  const setNpc = (NPC: NpcType): void => {
+    setNpcState(NPC);
+    !dialogVisible && toggleDialog(true);
+  };
+  const calcPosition = (startPosition: Position, e: TouchEvent): Position => {
+    const [x, y] = startPosition;
+    let { clientX, clientY } = e.touches[0];
+    // 外边框 34rpx ， 一个单元格 62rpx
+    clientX = Math.ceil((px2rpx(clientX) - 34) / 62);
+    clientY = Math.ceil((716 - px2rpx(clientY)) / 62);
+    const movingHorizontally = Math.abs(clientX - x) >= Math.abs(clientY - y);
+    let newPosition: Position;
+    if (movingHorizontally) {
+      if (clientX > x) {
+        newPosition = [x + 1, y];
+      } else {
+        newPosition = clientX === x ? [x, y] : [x - 1, y];
+      }
+    } else if (clientY > y) {
+      newPosition = [x, y + 1];
+    } else {
+      newPosition = clientY === y ? [x, y] : [x, y - 1];
+    }
+    return newPosition;
+  };
+  const handleFloorClick = (e: TouchEvent) => {
+    if (dialogVisible) return;
+    const newPosition = calcPosition(warriorState.position, e);
+    handleMove(newPosition, floorState, warriorState, updateFloorState, updateWarrior, setNpc);
+  };
   return (
     <View
       className={styles.floor}
-      style={{ backgroundSize: `${unitSize}rpx` }}
-      onClick={handleFloorClick}>
+      onClick={handleFloorClick}
+    >
       <Warrior
         position={warriorState.position}
-        unitSize={unitSize}>
-      </Warrior>
+        unitSize={unitSize}
+      />
       <>
-        {allArticles.map(article => (
-          <Article
-            id={article.id}
-            name={article.name}
-            positions={article.positions}
-            key={article.id}
-            unitSize={unitSize}
-          />
-        ))}
+        {
+          allArticles.map((article) => (
+            <Article
+              id={article.id}
+              name={article.name}
+              positions={article.positions}
+              key={article.id}
+              unitSize={unitSize}
+            />
+          ))
+        }
       </>
+      {
+        dialogVisible &&
+          <Dialog onContinue={toggleDialog} NPC={currentNpc} />
+      }
     </View>
   );
 }

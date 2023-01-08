@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@alifd/meet": "^2.8.4",
+    "@alifd/mobile-layout": "^1.0.7",
     "@uni/application": "^1.0.7",
     "@uni/navigate": "^1.0.10",
     "@uni/unit-tool": "^1.0.7",

@@ -6,53 +6,44 @@
  * @FilePath: \magic-tower\src\models\warrior.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import {WarriorState} from '@/types'
+import { WarriorState } from '@/types';
 
 export const delay = (time: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), time));
+
+const state: WarriorState = {
+  floor: 10,
+  highestFloor: 1,
+  properties: {
+    name: '',
+    life: 1000,
+    attack: 100,
+    defense: 100,
+    gold: 20,
+  },
+  msg: '你获得了1把黄钥匙.',
+  position: [1, 2], // 以左边和下边作为y轴和x轴
+  equipments: {
+    sword: 'holy-sword',
+    shield: 'holy-shield',
+  },
+  keys: {
+    yellow: 5,
+    blue: 2,
+    red: 1,
+  },
+  treasures: {
+    'monster-manual': 0,
+    'flying-cane': 0,
+    notebook: 0,
+  },
+};
 export const warrior = {
   // 定义 model 的初始 state
-  state: <WarriorState>{
-    properties: {
-      name: '',
-      life: 1000,
-      attack: 100,
-      defense: 100,
-      gold: 0
-    },
-    floor: 9,
-    msg: '你获得了1把黄钥匙.',
-    position: [6, 10], // 以左边和下边作为y轴和x轴
-    equipments: {
-      sword: 'holy-sword',
-      shield: 'holy-shield',
-    },
-    keys: {
-      yellow: 5,
-      blue: 2,
-      red: 1
-    },
-    treasures: {
-      'monster-manual': {
-        displayName: '怪物手册',
-        count: 0,
-        consumable: false
-      },
-      'flying-cane': {
-        displayName: '飞行手杖',
-        count: 0,
-        consumable: false
-      },
-      notebook: {
-        displayName: '记事本',
-        count: 0,
-        consumable: false
-      }
-    },
-  },
+  state,
 
   // 定义改变该模型状态的纯函数
   reducers: {
-    update (prevState, payload) {
+    update(prevState, payload) {
       return {
         ...prevState,
         ...payload,
@@ -62,10 +53,10 @@ export const warrior = {
 
   // 定义处理该模型副作用的函数
   effects: (dispatch) => ({
-    async updateUserInfo () {
+    async updateUserInfo() {
       await delay(1000);
       dispatch.user.update({
-        name: 'taobao',
+        name: 'TaoBao',
         id: '123',
       });
     },

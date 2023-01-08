@@ -1,12 +1,5 @@
-/* @Author: loveyy520 201357337@qq.com
- * @Date: 2023-01-01 11:27:30
- * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2023-01-02 01:49:55
- * @FilePath: \magic-tower\src\utils\controller.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
-import propertyData from '@/article_property'
 import {
+  Properties,
   HandleMove,
   MoveTo,
   Obstacle,
@@ -22,285 +15,316 @@ import {
   EnhanceAbility,
   GainArticle,
   ArticleType,
-  Property
- } from "@/types"
+  Property,
+  UpdateFloors,
+  WarriorState,
+  DialogContent,
+  RaxSetState,
+  UpdateWarrior,
+} from '@/types';
+/* @Author: loveyy520 201357337@qq.com
+ * @Date: 2023-01-01 11:27:30
+ * @LastEditors: loveyy520 201357337@qq.com
+ * @LastEditTime: 2023-01-02 01:49:55
+ * @FilePath: \magic-tower\src\utils\controller.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+import propertyData from '@/article_property';
 
-export const handleMove: HandleMove = (position, floorState, warriorState, updateFloors, updateWarrior) => {
-  const obstacleMap = getObstacleMap(floorState)
-  const [isValid, obstacle, obstacleType] = validatePosition(position, obstacleMap)
-  if (isValid) return moveTo(position, updateWarrior)
-  const obstacleHandlers = getObstacleHandlers()
+let updateFloorState: UpdateFloors<number>;
+let updateWarriorState: UpdateWarrior;
+let setNpc: RaxSetState<ArticleType | undefined>;
+
+export const handleMove: HandleMove = (
+  position,
+  floorState,
+  warriorState,
+  updateFloors,
+  updateWarrior,
+  setDialogContent,
+) => {
+  const obstacleMap = getObstacleMap(floorState);
+  const [isValid, obstacle, obstacleType] = validatePosition(position, obstacleMap);
+  updateWarriorState !== updateWarrior && (updateWarriorState = updateWarrior); // moveTo需要用到，因此先行赋值
+  updateFloorState !== updateFloors && (updateFloorState = updateFloors);
+  setNpc !== setDialogContent && (setNpc = setDialogContent);
+  if (isValid) return moveTo(position);
+  const obstacleHandlers = getObstacleHandlers();
   Object.keys(obstacleHandlers).includes(obstacleType!) &&
-    obstacleHandlers[obstacleType!](updateWarrior, updateFloors, obstacle, floorState, warriorState)
-}
+    obstacleHandlers[obstacleType!](obstacle, floorState, warriorState);
+};
 
 const getObstacleMap: GetObstacleMap = (floorState) => {
-  const {
-    walls,
-    weakWalls,
-    doors,
-    stairs,
-    monsters,
-    npc,
-    articles
-  } = floorState
+  const { walls, weakWalls, doors, stairs, monsters, npcs, articles } = floorState;
   const obstacleMap: ObstacleMap = {
     wall: walls,
     weakWall: weakWalls,
     door: doors,
     stair: stairs,
     monster: monsters,
-    NPC: npc,
-    article: articles
-  }
-  return obstacleMap
-}
+    NPC: npcs,
+    article: articles,
+  };
+  return obstacleMap;
+};
 
 const validatePosition: ValidatePosition = (position, obstacleMap) => {
-  const [x, y] = position
-  if (!x || !y || x === 12 || y === 12) return [false]
+  const [x, y] = position;
+  if (!x || !y || x === 12 || y === 12) return [false];
   for (const key in obstacleMap) {
-    const [isObstacle, obstacle] = hasObstacle(position, obstacleMap[key])
-    if (isObstacle) return [false, obstacle, key]
+    const [isObstacle, obstacle] = hasObstacle(position, obstacleMap[key]);
+    if (isObstacle) return [false, obstacle, key];
   }
-  return [true]
-}
+  return [true];
+};
 
-const moveTo: MoveTo = (position, updateWarrior) => {
-  updateWarrior({ position, msg: ''})
-}
+const moveTo: MoveTo = (position) => {
+  updateWarriorState({ position, msg: '' });
+};
 
-const getObstacleHandlers:GetObstacleHandlers = () => ({
+const getObstacleHandlers: GetObstacleHandlers = () => ({
   wall: handleWall,
   weakWall: handleWeakWall,
   door: handleDoor,
   stair: handleStair,
   monster: handleMonster,
   NPC: handleNPC,
-  article: handleArticle
-})
+  article: handleArticle,
+});
 
 const hasObstacle: HasObstacle = ([targetX, targetY], obstacles) => {
   const allObstacles = obstacles.reduce<Obstacle[]>((pre, cur) => {
-    const positions = cur.positions
-    pre.push(...positions.map(position => ({
-      ...cur, positions: [position]
-    })))
-    return pre
-  }, [])
+    const { positions } = cur;
+    pre.push(
+      ...positions.map((position) => ({
+        ...cur,
+        positions: [position],
+      })),
+    );
+    return pre;
+  }, []);
   const item = allObstacles.find((obstacle: Obstacle) => {
-    const [[x, y]] = obstacle.positions
-    return x === targetX && y === targetY
-  })
-  return item
-    ? [true, item]
-    : [false]
-}
+    const [[x, y]] = obstacle.positions;
+    return x === targetX && y === targetY;
+  });
+  return item ? [true, item] : [false];
+};
 
 // 当新位置处有各种障碍物
-const handleWall: HandleArticle = (updateWarrior, updateFloors, wall) => {
-  setMessage('一堵墙挡在了你面前.', updateWarrior)
-}
-const handleWeakWall: HandleArticle = (updateWarrior, updateFloors, weakWall, floorState, warriorState) => {
-  removeArticle(weakWall, warriorState.floor, floorState, updateFloors)
-}
-const handleDoor: HandleArticle = (updateWarrior, updateFloors, door, floorState, warriorState) => {
+const handleWall: HandleArticle = (wall) => {
+  setMessage('一堵墙挡在了你面前.');
+};
+const handleWeakWall: HandleArticle = (weakWall, floorState, warriorState) => {
+  removeArticle(weakWall, floorState);
+};
+const handleDoor: HandleArticle = (door, floorState, warriorState) => {
   const msgMap = {
     yellow: ['你缺少1把黄钥匙.', '你消耗了1把黄钥匙打开了门.'],
     blue: ['你缺少1把蓝钥匙.', '你消耗了1把蓝钥匙打开了门.'],
     red: ['你缺少1把红钥匙.', '你消耗了1把红钥匙打开了门.'],
-  }
-  const withKeys: string[] = ['yellow', 'blue', 'red']
-  const {doorType} = door
-  if(!withKeys.includes(doorType!)) return setMessage('似乎目前无法打开这扇门.', updateWarrior)
-  const {keys, floor} = warriorState
-  const keyCount = keys[doorType!]
-  if(!keyCount) return setMessage(msgMap[doorType!][0], updateWarrior)
-  removeArticle(door, floor, floorState, updateFloors)
-  updateWarrior({
+  };
+  const withKeys: string[] = ['yellow', 'blue', 'red'];
+  const { doorType } = door;
+  if (!withKeys.includes(doorType!)) return setMessage('似乎目前无法打开这扇门.');
+  const { keys } = warriorState;
+  const keyCount = keys[doorType!];
+  if (!keyCount) return setMessage(msgMap[doorType!][0]);
+  removeArticle(door, floorState);
+  updateWarriorState({
     keys: {
       ...keys,
-      [doorType!]: keyCount - 1
+      [doorType!]: keyCount - 1,
     },
-    msg: msgMap[doorType!][1]
-  })
-}
-const handleStair: HandleArticle = (updateWarrior, updateFloors, stair, floorState, warriorState) => {
-  updateWarrior({
-    position: stair.positions[0]
-  })
+    msg: msgMap[doorType!][1],
+  });
+};
+const handleStair: HandleArticle = (stair, floorState, warriorState) => {
+  updateWarriorState({
+    position: stair.positions[0],
+  });
+  const { nextFloor, nextStairPosition } = stair;
+  const updatedData: Partial<WarriorState> = {
+    floor: nextFloor!,
+    position: nextStairPosition!,
+    msg: `你来到了第${nextFloor!}层.`,
+  };
+  nextFloor! > warriorState.highestFloor && (updatedData.highestFloor = nextFloor);
   setTimeout(() => {
-    updateWarrior({
-      floor: stair.nextFloor!,
-      position: stair.nextStairPosition!,
-      msg: `你来到了第${stair.nextFloor}层.`
-    })
-  }, 0)
-}
-const handleMonster: HandleArticle = async(updateWarrior, updateFloors, monster, floorState, warriorState) => {
-  const {atk, def, life, gold, displayName} = <Property>propertyData[monster.name]
-  const {attack, defense, life: warriorLife} = warriorState.properties
-  const damage = attack - def
-  if(damage <= 0)  return setMessage('你还不能打败它.', updateWarrior)
-  const round = Math.ceil(life / damage)
-  const injury = atk - defense > 0 ? atk - defense : 0
-  const canBeat = warriorLife > injury * (round - 1)
-  if(!canBeat) return setMessage('你还不能打败它.', updateWarrior)
-  moveTo(monster.positions[0], updateWarrior)
-  const fightingParams = {round, injury, gold, enemyName: displayName!, warriorProperty: warriorState.properties, updateWarrior}
-  await fight(fightingParams)
-  removeArticle(monster, warriorState.floor, floorState, updateFloors)
-}
-const handleNPC: HandleArticle = (updateWarrior, updateFloors, NPC, warriorState, floorState) => null
-const handleArticle: HandleArticle = (updateWarrior, updateFloors, article, floorState, warriorState) => {
-  if(['potion', 'gem'].includes(article.type)) {
-    enhanceAbility(article.name, warriorState, updateWarrior)
+    updateWarriorState(updatedData);
+  }, 0);
+};
+const handleMonster: HandleArticle = async (monster, floorState, warriorState) => {
+  const { atk, def, life, gold, displayName } = propertyData[monster.name] as Property;
+  const { attack, defense, life: warriorLife } = warriorState.properties;
+  const damage = attack - def;
+  if (damage <= 0) return setMessage('你还不能打败它.');
+  const round = Math.ceil(life / damage);
+  const injury = atk - defense > 0 ? atk - defense : 0;
+  const canBeat = warriorLife > injury * (round - 1);
+  if (!canBeat) return setMessage('你还不能打败它.');
+  moveTo(monster.positions[0]);
+  const fightingParams = {
+    round,
+    injury,
+    gold,
+    enemyName: displayName!,
+    warriorProperty: warriorState.properties,
+  };
+  await fight(fightingParams);
+  removeArticle(monster, floorState);
+};
+const handleNPC: HandleArticle = (NPC, warriorState, floorState) => {
+  NPC.dialogContent && setNpc(NPC);
+};
+const handleArticle: HandleArticle = (article, floorState, warriorState) => {
+  if (['potion', 'gem'].includes(article.type)) {
+    enhanceAbility(article.name, warriorState);
   } else {
-    gainArticle(article, warriorState, updateWarrior)
+    gainArticle(article, warriorState);
   }
-  removeArticle(article, warriorState.floor, floorState, updateFloors)
-}
+  removeArticle(article, floorState);
+};
 
-const setMessage: SetMessage = (msg, updateWarrior) => {
-  updateWarrior({
-    msg
-  })
-}
+export const setMessage: SetMessage = (msg, updateMsg = updateWarriorState) => {
+  updateMsg({
+    msg,
+  });
+};
 
-const fight: Fight = async({round, injury, gold, enemyName, warriorProperty, updateWarrior}) => {
-  while(round--) {
+const fight: Fight = async ({ round, injury, gold, enemyName, warriorProperty }) => {
+  if (round--) {
+    let properties: Properties;
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        const properties = {
+        properties = {
           ...warriorProperty,
-          life: warriorProperty.life - injury
-        }
-        warriorProperty = properties
-        updateWarrior({
-          properties
-        })
-        resolve()
+          life: warriorProperty.life - injury,
+        };
+        warriorProperty = properties;
+        updateWarriorState({
+          properties,
+        });
+        resolve();
       }, 100);
-    })
+    });
+    await fight({ round, injury, gold, enemyName, warriorProperty: properties! });
   }
-  updateWarrior({
+  updateWarriorState({
     properties: {
       ...warriorProperty,
-      gold: warriorProperty.gold + gold
+      gold: warriorProperty.gold + gold,
     },
-    msg: `你击败了${enemyName}，获得了${gold}个金币!`
-  })
-}
+    msg: `你击败了${enemyName}，获得了${gold}个金币!`,
+  });
+};
 
-const removeArticle: RemoveArticle = (article, floor, floorState, updateFloors) => {
-  const {id, type, positions} = article
-  const keys = ['door', 'weakWall', 'wall', 'monster', 'npc']
-  const propType = keys.includes(type) ? `${type}s` : 'articles'
-  const originalArticles: ArticleType[] = floorState[propType]
-  const index = originalArticles.findIndex(originalArticle => originalArticle.id === id)
-  
-  if(index< 0) return
-  const leftArticlePositions = originalArticles[index].positions.filter(position => position !== positions[0])
-  const leftArticles = originalArticles.slice()
-  leftArticles.splice(index, 1, {...originalArticles[index], positions: leftArticlePositions})
-  updateFloors({
-    [floor]: {
-      ...floorState,
-      [propType]: leftArticles
-    }
-  })
-}
+export const removeArticle: RemoveArticle = (article, floorState) => {
+  const { id, type, positions } = article;
+  const keys = ['door', 'weakWall', 'wall', 'monster', 'npc'];
+  const propType = keys.includes(type) ? `${type}s` : 'articles';
+  const originalArticles: ArticleType[] = floorState[propType];
+  const index = originalArticles.findIndex((originalArticle) => originalArticle.id === id);
 
-const enhanceAbility: EnhanceAbility = (articleName, warriorState, updateWarrior) => {
-  const level = Math.ceil(warriorState.floor / 10) - 1
-  const {life = 0, atk = 0, def = 0, gold = 0, displayName} = <Property>(propertyData[articleName][level])
-  const {life: warriorLife, attack, defense, gold: warriorGold} = warriorState.properties
-  let value: number, propertyName: string
-  switch(true) {
+  if (index < 0) return;
+  const leftArticlePositions = originalArticles[index].positions.filter((position) => position !== positions[0]);
+  const leftArticles = originalArticles.slice();
+  leftArticles.splice(index, 1, { ...originalArticles[index], positions: leftArticlePositions });
+  updateFloorState({
+    [propType]: leftArticles,
+  });
+};
+
+const enhanceAbility: EnhanceAbility = (articleName, warriorState) => {
+  const level = Math.ceil(warriorState.floor / 10) - 1;
+  const { life = 0, atk = 0, def = 0, gold = 0, displayName } = propertyData[articleName][level] as Property;
+  const { life: warriorLife, attack, defense, gold: warriorGold } = warriorState.properties;
+  let value: number;
+  let propertyName: string;
+  switch (true) {
     case !!life:
-      value = life
-      propertyName = '生命值'
-      break
+      value = life;
+      propertyName = '生命值';
+      break;
     case !!atk:
-      value = atk
-      propertyName = '攻击力'
-      break
+      value = atk;
+      propertyName = '攻击力';
+      break;
     case !!def:
-      value = def
-      propertyName = '防御力'
-      break
+      value = def;
+      propertyName = '防御力';
+      break;
     case !!gold:
-      value = gold
-      propertyName = '金币'
-      break
+      value = gold;
+      propertyName = '金币';
+      break;
     default:
-      value = 0
-      propertyName = 'Nothing'
+      value = 0;
+      propertyName = 'Nothing';
   }
-  
-  updateWarrior({
+
+  updateWarriorState({
     properties: {
       life: warriorLife + life,
       attack: attack + atk,
       defense: defense + def,
-      gold: warriorGold + gold
+      gold: warriorGold + gold,
     },
-    msg: `你获得了${displayName},增加了${value}点${propertyName}.`
-  })
-}
+    msg: `你获得了${displayName},增加了${value}点${propertyName}.`,
+  });
+};
 
-const gainArticle: GainArticle = (article, warriorState, updateWarrior) => {
-  switch(article.type) {
+export const gainArticle: GainArticle = (article, warriorState) => {
+  let property: Property;
+  let displayName: string;
+  let value: number;
+  let propName: '攻击力' | '防御力';
+  let articleProp: 'atk' | 'def';
+  let prop: string;
+  switch (article.type) {
     case 'equipment':
-      const property = <Property>propertyData[article.name]
-      const {displayName} = property
-      let value: number,
-        propName: '攻击力' | '防御力',
-        articleProp: 'atk' | 'def',
-        prop: 'attack' | 'defense'
-      if(property.atk) {
-        value = property.atk
-        propName = '攻击力',
-        articleProp = 'atk'
-        prop = 'attack'
+      property = propertyData[article.name] as Property;
+      displayName = property.displayName!;
+      if (property.atk) {
+        value = property.atk;
+        propName = '攻击力';
+        articleProp = 'atk';
+        prop = 'attack';
       } else {
-        value = property.def
-        propName = '防御力'
-        articleProp = 'def'
-        prop = 'defense'
+        value = property.def;
+        propName = '防御力';
+        articleProp = 'def';
+        prop = 'defense';
       }
-      updateWarrior({
+      updateWarriorState({
         properties: {
           ...warriorState.properties,
-          [prop]: property[articleProp] + warriorState.properties[prop]
+          [prop]: (property[articleProp] as number) + (warriorState.properties[prop] as number),
         },
-        msg: `你获得了${displayName},增加了${value}点${propName}.`
-      })
-      break
+        msg: `你获得了${displayName},增加了${value}点${propName}.`,
+      });
+      break;
     case 'key':
-      const keyProp = article.name.split('-')[0]
-      updateWarrior({
+      prop = article.name.split('-')[0];
+      updateWarriorState({
         keys: {
           ...warriorState.keys,
-          [keyProp]: warriorState.keys[keyProp] + 1
+          [prop]: (warriorState.keys[prop] as number) + 1,
         },
-        msg: `你获得了一把${article.displayName}.`
-      })
-      break
+        msg: `你获得了一把${article.displayName}.`,
+      });
+      break;
     case 'treasure':
-      const treasureName = article.name
-      updateWarrior({
+      // const {name, displayName} = article;
+      prop = article.name;
+      displayName = article.displayName!;
+      updateWarriorState({
         treasures: {
           ...warriorState.treasures,
-          [treasureName]: {
-            ...warriorState.treasures[treasureName],
-            count: warriorState.treasures[treasureName].count + 1
-          }
+          [prop]: warriorState.treasures[prop] + 1,
         },
-        msg: `你获得了${article.displayName}.`
-      })
-      break
+        msg: `你获得了${displayName}.`,
+      });
+      break;
     default:
-      return
   }
-}
+};

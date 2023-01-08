@@ -9,15 +9,15 @@
 import { createElement } from 'rax';
 import View from 'rax-view';
 import Text from 'rax-text';
-import { Icon } from "@alifd/meet";
+import { Icon } from '@alifd/meet';
 
 import styles from './index.module.css';
 
-import { Properties, Keys } from "@/types";
+import { Properties, Keys } from '@/types';
 
 interface Props {
-  properties: Properties,
-  keys: Keys
+  properties: Properties;
+  keys: Keys;
 }
 
 export function Card({ properties, keys }: Props) {
@@ -27,51 +27,51 @@ export function Card({ properties, keys }: Props) {
       icon: 'heart-filling',
       iconColor: 'red',
       propName: '生命',
-      propValue: properties.life
+      propValue: properties.life,
     },
     {
       className: 'role-attack',
       icon: 'heart-filling',
       iconColor: 'red',
       propName: '攻击',
-      propValue: properties.attack
+      propValue: properties.attack,
     },
     {
       className: 'role-defense',
       icon: 'heart-filling',
       iconColor: 'red',
       propName: '防御',
-      propValue: properties.defense
+      propValue: properties.defense,
     },
     {
       className: 'role-money',
       icon: 'heart-filling',
       iconColor: 'red',
       propName: '金钱',
-      propValue: properties.gold
+      propValue: properties.gold,
     },
 
-  ]
+  ];
   const keyConfig = [
     {
       color: 'brown',
-      count: keys.yellow
+      count: keys.yellow,
     },
     {
       color: 'blue',
-      count: keys.blue
+      count: keys.blue,
     },
     {
       color: 'red',
-      count: keys.red
-    }
-  ]
+      count: keys.red,
+    },
+  ];
   return (
     <View className={styles.card}>
       <View className={styles['role-properties']}>
-        {propertyConfig.map(property => (
+        {propertyConfig.map((property) => (
           <View className={styles[property.className]} key={property.className}>
-            <Icon name={property.icon} className={styles['mr-50']} style={{ color: property.iconColor }}></Icon>
+            <Icon name={property.icon} className={styles['mr-50']} style={{ color: property.iconColor }} />
             <View className={styles['role-property']}>
               <Text className={[styles['property-name'], styles['mr-50']]}>{property.propName}</Text>
               <Text className={styles['property-value']}>{property.propValue}</Text>
@@ -80,9 +80,9 @@ export function Card({ properties, keys }: Props) {
         ))}
       </View>
       <View className={styles.keys}>
-        {keyConfig.map(key => (
+        {keyConfig.map((key) => (
           <View className={styles.key} key={key.color}>
-            <Icon name="ascending" style={{ color: key.color }} className={styles['mr-50']}></Icon>
+            <Icon name="ascending" style={{ color: key.color }} className={styles['mr-50']} />
             <Text>{key.count}</Text>
           </View>
         ))}

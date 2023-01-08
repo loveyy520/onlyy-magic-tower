@@ -1,0 +1,8 @@
+.treasure-container {
+  padding: 0 34rpx;
+}
+
+.custom-cell {
+  flex-direction: row !important;
+  align-items: center !important;
+}

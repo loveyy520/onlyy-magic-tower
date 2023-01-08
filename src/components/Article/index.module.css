@@ -1,72 +1,89 @@
 
+.thief {
+  background-position: 66.5% 62.6%;
+}
+
+.businessman {
+  /* background-position: 88.5% 37.6%; 勇者向下走 */
+  background-position: 88.5% 62.6%;
+}
+
+.sage {
+  /* background-position: 66.5% 31%; 魔法警卫 */
+  background-position: 88.5% 56.3%;
+}
+
 .wall {
-  background-position: 0% 100%;
+  background-position: 0% 99%;
+  background-size: 680rpx 1500rpx;
 }
 
 .weak-wall {
-  background-position: 0% 90%;
+  background-position: 0% 99%;
+  background-size: 680rpx 1500rpx;
+  transform: rotateZ(90deg);
 }
 
 .yellow-door {
-  background-position: 0% 0%;
+  background-position: 66.5% 93.8%;
 }
 
 .blue-door {
-  background-position: 0% 0%;
+  background-position: 77.5% 93.8%;
 }
 
 .red-door {
-  background-position: 0% 0%;
+  background-position: 88.5% 93.8%;
 }
 
 .iron-gate {
-  background-position: 0% 0%;
+  background-position: 100% 93.8%;
 }
 
 .magic-gate {
-  background-position: 0% 0%;
+  background-position: 55.5% 93.8%;
 }
 
 .yellow-key {
-  background-position: 5% 5%;
+  background-position: 33.5% 88%;
 }
 
 .blue-key {
-  background-position: 5% 5%;
+  background-position: 44.5% 88%;
 }
 
 .red-key {
-  background-position: 5% 5%;
+  background-position: 55.5% 88%;
 }
 
 .stair-up {
-  background-position: 5% 5%;
+  background-position: 33% 100%;
 }
 
 .stair-down {
-  background-position: 5% 5%;
+  background-position: 22% 100%;
 }
 
 /* 红宝石 */
 .ruby {
-  background-position: 0% 0%;
+  background-position: 33.5% 75.2%;
 }
 
 /* 蓝宝石 */
 .sapphire {
-  background-position: 5% 5%;
+  background-position: 44.5% 75.2%;
 }
 
 .red-potion {
-  background-position: 5% 5%;
+  background-position: 33.5% 81.3%;
 }
 
 .blue-potion {
-  background-position: 5% 5%;
+  background-position: 44.5% 81.3%;
 }
 
 .flying-cane {
-  background-position: 5% 5%;
+  background-position: 11% 75.2%;
 }
 
 .notebook {
@@ -74,43 +91,47 @@
 }
 
 .iron-sword {
-  background-position: 30% 30%;
+  background-position: 66.5% 75.2%;
 }
 
 .iron-shield {
-  background-position: 20% 20%;
+  background-position: 66.5% 81.8%;
 }
 
 /* 绿史莱姆 */
 .green-slim {
-  background-position: 0 0;
+  background-position: 0% -0.2%;
+}
+
+.red-slim {
+  background-position: 33% -0.2%;
 }
 
 /* 小蝙蝠 */
 .little-bat {
-  background-position: 0 0;
+  background-position: 66.5% -0.6%;
 }
 
 .junior-wizard {
-  background-position: 0 0;
+  background-position: 66.5% 6%;
 }
 
 .skeleton-man {
-  background-position: 0 0;
+  background-position: 0 6%;
 }
 
 .skeleton-soldier {
-  background-position: 0 0;
+  background-position: 22% 6%;
 }
 
 .junior-guard {
-  background-position: 50% 50%;
+  background-position: 55% 18.8%;
 }
 
 .intermediate-guard {
-  background-position: 50% 10%;
+  background-position: 66% 18.8%;
 }
 
 .skeleton-captain {
-  background-position: 20% 10%;
+  background-position: 44% 6%;
 }

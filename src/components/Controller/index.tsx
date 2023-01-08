@@ -9,7 +9,8 @@
 import { createElement } from 'rax';
 import View from 'rax-view';
 import Text from 'rax-text';
-import styles from './index.module.css'
+import styles from './index.module.css';
+
 export function Controller() {
   return (
     <View className={styles.controller}>

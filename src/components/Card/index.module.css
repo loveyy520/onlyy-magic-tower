@@ -1,11 +1,11 @@
 .card {
   width: 100%;
-  height: calc(100% - 80rpx);
+  height: calc(100% - 245rpx);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 60rpx;
+  padding: 20rpx 60rpx;
 }
 
 .role-properties {
