@@ -1,3 +1,4 @@
+import { MagicStore } from './floors';
 import { IRootDispatch, IRootState } from '@/store';
 import {
   Obstacle,
@@ -27,13 +28,18 @@ export interface ObstacleMap {
   monster: MonsterType[];
   NPC: NpcType[];
   article: ArticleType[];
+  magicStore?: MagicStore;
 }
 
-export type HandleArticle = (article: ArticleType, floorState: FloorState, warriorState: IRootState['warrior']) => void;
+export type HandleArticle = (
+  article: ArticleType | MagicStore,
+  floorState: FloorState,
+  warriorState: IRootState['warrior'],
+) => void;
 export type GetObstacleMap = (floorState: FloorState) => ObstacleMap;
 export type GetObstacleHandlers = () => ObstacleHandlers;
 export type ValidatePosition = (position: Position, obstaclesMap: ObstacleMap) => ValidatePositionResult;
-export type HasObstacle = (position: Position, obstacles: Obstacle[]) => ObstacleJudgement;
+export type HasObstacle = (position: Position, obstacles: Obstacle[] | MagicStore) => ObstacleJudgement;
 export type HandleMove = (
   position: Position,
   floorState: FloorState,
@@ -54,8 +60,8 @@ export interface ObstacleHandlers {
   article: HandleArticle;
 }
 
-export type ValidatePositionResult = [boolean] | [false, Obstacle, string];
-export type ObstacleJudgement = [false] | [true, Obstacle];
+export type ValidatePositionResult = [boolean] | [false, Obstacle | MagicStore, string];
+export type ObstacleJudgement = [false] | [true, Obstacle | MagicStore];
 
 export interface FightingParams {
   round: number;

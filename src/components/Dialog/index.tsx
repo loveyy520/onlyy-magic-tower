@@ -62,10 +62,18 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
   const [floorState, { update: updateFloor }] = store.useModel(`floor${warrior.floor}`);
   const handleSelection = (selection: Goods) => {
     const { properties: { gold } } = warrior;
-    if (gold < selection.cost) return setMessage('你太穷了，买不起这个！', updateWarrior);
     const { displayName, type, subType, count, cost } = selection;
+    if (cost && gold < cost) return setMessage('你太穷了，买不起这个！', updateWarrior);
     const originalValue: number = warrior[type][subType];
-    const costMsg = cost ? `，花费了${cost}金币` : '';
+    // const costMsg = cost ? `，花费了${cost}金币` : '';
+    let costMsg: string;
+    if (cost) {
+      costMsg = `，花费了${cost}金币`;
+    } else {
+      costMsg = '';
+    }
+    console.log(cost, typeof cost, costMsg);
+
     const param: Partial<WarriorState> = {
       [type]: {
         ...warrior[type],
@@ -73,7 +81,7 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
       },
       msg: `你获得了${displayName} x ${count}${costMsg}.`,
     };
-    type === 'properties' && (param[type]!.gold = gold - cost);
+    type === 'properties' && cost && (param[type]!.gold = gold - cost);
     updateWarrior(param);
 
     onContinue(false);
@@ -129,7 +137,7 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
   };
   return (
     <View className={[styles.dialog, hasSelections ? '' : styles['pb-130']]}>
-      <View className={styles.avator} />
+      <View className={['base-item', styles.avator, NPC ? styles[NPC.name] : styles['default-icon']]} />
       {
         <Text className={styles.text}>
           {talkingContent}

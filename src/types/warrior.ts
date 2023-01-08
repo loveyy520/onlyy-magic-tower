@@ -44,6 +44,7 @@ export interface WarriorState {
   properties: Properties;
   floor: number;
   msg: string;
+  shoppingCost: number;
   position: Position;
   equipments: Equipments;
   keys: Keys;

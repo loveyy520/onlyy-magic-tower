@@ -19,3 +19,4 @@ export * from './Controller';
 export * from './Message';
 export * from './Treasures';
 export * from './Dialog';
+export * from './MagicStore';

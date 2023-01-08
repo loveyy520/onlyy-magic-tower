@@ -80,3 +80,9 @@ export type StairType = ArticleType;
 export type NpcType = ArticleType;
 
 export type Obstacle = WallType | WeakWallType | NpcType | MonsterType;
+
+export interface MagicStore {
+  id: 'magic-store';
+  positions: Position[];
+  selections: Goods[];
+}

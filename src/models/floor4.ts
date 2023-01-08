@@ -202,6 +202,23 @@ const state: FloorState = {
       positions: [[10, 11]],
     },
   ],
+  magicStore: {
+    id: 'magic-store',
+    positions: [
+      [5, 11],
+      [6, 11],
+      [7, 11],
+    ],
+    selections: [
+      {
+        name: 'attack',
+        displayName: '攻击力',
+        type: 'properties',
+        subType: 'attack',
+        count: 2,
+      },
+    ],
+  },
 };
 
 export const floor4 = {

@@ -5,7 +5,7 @@
   top: 200rpx;
   left: 32rpx;
   z-index: 120;
-  padding: 20rpx 20rpx;
+  padding: 80rpx 20rpx;
   background-color: rgba(33, 48, 43, 0.826);
   border-radius: 20rpx;
   border: 5rpx solid rgb(253, 253, 253);
@@ -14,12 +14,6 @@
 
 .pb-130 {
   padding-bottom: 130rpx;
-}
-
-.avator {
-  width: 64rpx;
-  height: 64rpx;
-  background: #fff;
 }
 
 .text {
@@ -44,4 +38,32 @@
 
 .exit-button {
   background-color: #00bcd4;
+}
+
+.avator {
+  top: 15rpx;
+  box-shadow: #fff 0 0 10rpx;
+  border-radius: 10rpx;
+}
+
+.thief {
+  background-position: 66.5% 62.6%;
+}
+
+.businessman {
+  /* background-position: 88.5% 37.6%; 勇者向下走 */
+  background-position: 88.5% 62.6%;
+}
+
+.sage {
+  /* background-position: 66.5% 31%; 魔法警卫 */
+  background-position: 88.5% 56.3%;
+}
+
+.magic-store {
+  background-position: 77.5% 69%;
+}
+
+.default-icon {
+  background-position: 100% 56.3%;
 }

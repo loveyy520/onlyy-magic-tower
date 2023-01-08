@@ -15,6 +15,7 @@ import {
   Warrior,
   Article,
   Dialog,
+  MagicStore,
 } from '@/components';
 import { handleMove } from '@/utils';
 
@@ -35,7 +36,7 @@ export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
   const [dialogVisible, toggleDialog] = useState(true);
   // const [floor, setFloor] = useState(1);
   const [floorState, { update: updateFloorState }] = store.useModel(`floor${warriorState.floor}`);
-  const { walls, weakWalls, monsters, doors, stairs, articles, npcs } = floorState;
+  const { walls, weakWalls, monsters, doors, stairs, articles, npcs, magicStore } = floorState;
   const allArticles: ArticleType[] = [
     ...walls,
     ...weakWalls,
@@ -104,6 +105,13 @@ export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
       {
         dialogVisible &&
           <Dialog onContinue={toggleDialog} NPC={currentNpc} />
+      }
+      {
+        magicStore &&
+          <MagicStore
+            unitSize={unitSize}
+            positions={magicStore.positions}
+          />
       }
     </View>
   );

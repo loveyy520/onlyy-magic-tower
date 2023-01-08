@@ -1,0 +1,19 @@
+.store {
+  width: 186rpx;
+  background-position: 84.5% 69%;
+}
+
+.store-door {
+  background-position: 100% 69%;
+  opacity: 1;
+  animation: shining 1.5s infinite;
+}
+
+@keyframes shining {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

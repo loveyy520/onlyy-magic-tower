@@ -1,3 +1,5 @@
+import { NpcType } from './../types/articles';
+import { MagicStore } from './../types/floors';
 import {
   Properties,
   HandleMove,
@@ -19,6 +21,7 @@ import {
   UpdateFloors,
   WarriorState,
   DialogContent,
+  Position,
   RaxSetState,
   UpdateWarrior,
 } from '@/types';
@@ -34,6 +37,7 @@ import propertyData from '@/article_property';
 let updateFloorState: UpdateFloors<number>;
 let updateWarriorState: UpdateWarrior;
 let setNpc: RaxSetState<ArticleType | undefined>;
+let targetPosition: Position;
 
 export const handleMove: HandleMove = (
   position,
@@ -43,6 +47,7 @@ export const handleMove: HandleMove = (
   updateWarrior,
   setDialogContent,
 ) => {
+  targetPosition = [...position];
   const obstacleMap = getObstacleMap(floorState);
   const [isValid, obstacle, obstacleType] = validatePosition(position, obstacleMap);
   updateWarriorState !== updateWarrior && (updateWarriorState = updateWarrior); // moveTo需要用到，因此先行赋值
@@ -55,7 +60,7 @@ export const handleMove: HandleMove = (
 };
 
 const getObstacleMap: GetObstacleMap = (floorState) => {
-  const { walls, weakWalls, doors, stairs, monsters, npcs, articles } = floorState;
+  const { walls, weakWalls, doors, stairs, monsters, npcs, articles, magicStore } = floorState;
   const obstacleMap: ObstacleMap = {
     wall: walls,
     weakWall: weakWalls,
@@ -64,6 +69,7 @@ const getObstacleMap: GetObstacleMap = (floorState) => {
     monster: monsters,
     NPC: npcs,
     article: articles,
+    magicStore,
   };
   return obstacleMap;
 };
@@ -90,10 +96,12 @@ const getObstacleHandlers: GetObstacleHandlers = () => ({
   monster: handleMonster,
   NPC: handleNPC,
   article: handleArticle,
+  magicStore: handleMagicStore,
 });
 
 const hasObstacle: HasObstacle = ([targetX, targetY], obstacles) => {
-  const allObstacles = obstacles.reduce<Obstacle[]>((pre, cur) => {
+  if (obstacles.id === 'magic-store') return hasMagicStore([targetX, targetY], obstacles);
+  const allObstacles = (obstacles as Obstacle[]).reduce<Obstacle[]>((pre, cur) => {
     const { positions } = cur;
     pre.push(
       ...positions.map((position) => ({
@@ -108,6 +116,11 @@ const hasObstacle: HasObstacle = ([targetX, targetY], obstacles) => {
     return x === targetX && y === targetY;
   });
   return item ? [true, item] : [false];
+};
+
+const hasMagicStore: HasObstacle = ([targetX, targetY], obstacles: MagicStore) => {
+  const { positions } = obstacles;
+  return positions.some(([x, y]) => x === targetX && y === targetY) ? [true, obstacles] : [false];
 };
 
 // 当新位置处有各种障碍物
@@ -173,7 +186,7 @@ const handleMonster: HandleArticle = async (monster, floorState, warriorState) =
   await fight(fightingParams);
   removeArticle(monster, floorState);
 };
-const handleNPC: HandleArticle = (NPC, warriorState, floorState) => {
+const handleNPC: HandleArticle = (NPC, floorState, warriorState) => {
   NPC.dialogContent && setNpc(NPC);
 };
 const handleArticle: HandleArticle = (article, floorState, warriorState) => {
@@ -183,6 +196,30 @@ const handleArticle: HandleArticle = (article, floorState, warriorState) => {
     gainArticle(article, warriorState);
   }
   removeArticle(article, floorState);
+};
+const handleMagicStore: HandleArticle = (magicStore, floorState, warriorState) => {
+  const {
+    positions: [p1, [x, y]],
+    selections,
+  } = magicStore;
+  if (x !== targetPosition[0] || y !== targetPosition[1]) return setMessage('似乎来到了商店附近.');
+  const { shoppingCost } = warriorState;
+  const shoppingSelections = selections.map((selection) => ({
+    ...selection,
+    cost: shoppingCost,
+  }));
+  const virtualNpc: NpcType = {
+    id: 'magic-store',
+    name: 'magic-store',
+    type: 'npc',
+    positions: [[x, y]],
+    dialogContent: {
+      conversations: ['欢迎！我尊贵的客人！您想来点什么？'],
+      selections: shoppingSelections,
+    },
+    articleType: 'permanent',
+  };
+  setNpc(virtualNpc);
 };
 
 export const setMessage: SetMessage = (msg, updateMsg = updateWarriorState) => {

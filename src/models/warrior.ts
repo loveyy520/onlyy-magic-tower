@@ -11,7 +11,7 @@ import { WarriorState } from '@/types';
 export const delay = (time: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), time));
 
 const state: WarriorState = {
-  floor: 10,
+  floor: 4,
   highestFloor: 1,
   properties: {
     name: '',
@@ -20,7 +20,8 @@ const state: WarriorState = {
     defense: 100,
     gold: 20,
   },
-  msg: '你获得了1把黄钥匙.',
+  msg: '公主：救救我...',
+  shoppingCost: 10,
   position: [1, 2], // 以左边和下边作为y轴和x轴
   equipments: {
     sword: 'holy-sword',
