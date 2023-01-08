@@ -217,6 +217,20 @@ const state: FloorState = {
         subType: 'attack',
         count: 2,
       },
+      {
+        name: 'defense',
+        displayName: '防御力',
+        type: 'properties',
+        subType: 'defense',
+        count: 4,
+      },
+      {
+        name: 'life',
+        displayName: '生命值',
+        type: 'properties',
+        subType: 'life',
+        count: 200,
+      },
     ],
   },
 };

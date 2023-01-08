@@ -100,6 +100,7 @@ const getObstacleHandlers: GetObstacleHandlers = () => ({
 });
 
 const hasObstacle: HasObstacle = ([targetX, targetY], obstacles) => {
+  if (!obstacles) return [false];
   if (obstacles.id === 'magic-store') return hasMagicStore([targetX, targetY], obstacles);
   const allObstacles = (obstacles as Obstacle[]).reduce<Obstacle[]>((pre, cur) => {
     const { positions } = cur;

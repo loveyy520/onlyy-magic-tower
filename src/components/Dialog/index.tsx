@@ -43,19 +43,17 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
   const [contentIndex, setIndex] = useState(0);
   const [talkingContent, setContent] = useState(conversations[contentIndex] || '');
   const { length } = conversations;
-  const keepTalking = useCallback((extra = 0) => length > contentIndex + (extra as number), [contentIndex, length]);
+  const keepTalking = useCallback((extra = 0) =>
+    length > contentIndex + (extra as number), [contentIndex, length]);
   useEffect(() => {
     keepTalking() && setContent(conversations[contentIndex]);
   }, [contentIndex, conversations, keepTalking]);
-  // const talkingContent = allConversations[0];
   const hasSelections = selections && !!selections.length;
   const defaultBgColor = '#093b4e';
   const handleDialogContinue = () => {
     if (keepTalking(1)) return setIndex(contentIndex + 1);
     onContinue(false);
     owns && handleOwns();
-    console.log(NPC);
-
     articleType === 'consumable' && removeArticle(NPC!, floorState);
   };
   const [warrior, { update: updateWarrior }] = store.useModel('warrior');
@@ -65,14 +63,13 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
     const { displayName, type, subType, count, cost } = selection;
     if (cost && gold < cost) return setMessage('你太穷了，买不起这个！', updateWarrior);
     const originalValue: number = warrior[type][subType];
-    // const costMsg = cost ? `，花费了${cost}金币` : '';
-    let costMsg: string;
-    if (cost) {
-      costMsg = `，花费了${cost}金币`;
-    } else {
-      costMsg = '';
-    }
-    console.log(cost, typeof cost, costMsg);
+    const costMsg = cost ? `，花费了${cost}金币` : '';
+    // let costMsg: string;
+    // if (cost) {
+    //   costMsg = `，花费了${cost}金币`;
+    // } else {
+    //   costMsg = '';
+    // }
 
     const param: Partial<WarriorState> = {
       [type]: {
