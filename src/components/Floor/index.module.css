@@ -10,3 +10,36 @@
   /* border-image: url(https://assets.onlyy.vip/photos/magic-tower/blue-wall.png) repeat; */
   /* border-image-repeat: no-repeat; */
 }
+
+.dark {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  z-index: 101;
+  pointer-events: none;
+}
+
+.light {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: 0;
+  z-index: 101;
+  pointer-events: none;
+}
+
+.dark2light {
+  opacity: 0;
+  animation: dark2light 5s;
+}
+
+@keyframes dark2light {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

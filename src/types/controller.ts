@@ -1,4 +1,3 @@
-import { MagicStore } from './floors';
 import { IRootDispatch, IRootState } from '@/store';
 import {
   Obstacle,
@@ -14,6 +13,7 @@ import {
   Properties,
   Property,
   WarriorState,
+  MagicStore
 } from './index';
 
 export type UpdateWarrior = IRootDispatch['warrior']['update'];
@@ -47,8 +47,11 @@ export type HandleMove = (
   updateFloors: UpdateFloors<number>,
   updateWarrior: UpdateWarrior,
   setNpc: RaxSetState<NpcType | undefined>,
+  setDark: RaxSetState<boolean>,
+  setDark2Light: RaxSetState<boolean>
 ) => void;
-export type MoveTo = (position: Position) => void;
+export type MoveTo = (position: Position, floorState?: FloorState) => void;
+export type HandleAccident = (position: Position, floorState?: FloorState) => void;
 
 export interface ObstacleHandlers {
   wall: HandleArticle;
@@ -78,3 +81,5 @@ export type Fight = (params: FightingParams) => Promise<void>;
 export type GainArticle = (article: ArticleType, warriorState: WarriorState) => void;
 export type RemoveArticle = (article: ArticleType, floorState: FloorState) => void;
 export type EnhanceAbility = (articleName: string, warriorState: WarriorState) => void;
+
+export type HandleFloorAcd = (position: Position, floorState: FloorState) => void

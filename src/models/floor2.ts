@@ -11,6 +11,7 @@ import { FloorState } from '@/types';
 const delay = (time: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), time));
 
 const state: FloorState = {
+  floorNumber: 2,
   walls: [
     {
       id: 'wall-2-1',

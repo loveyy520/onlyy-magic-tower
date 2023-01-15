@@ -36,7 +36,7 @@ export function PropertyPanel({ properties, floor, keys, msg }: Props) {
       </View>
       <Treasures />
       <Card properties={properties} keys={keys} />
-      <Controller />
+      {/* <Controller /> */}
     </View>
   );
 }

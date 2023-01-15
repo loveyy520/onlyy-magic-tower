@@ -164,14 +164,14 @@ const articleData: ArticleProperty = {
     gold: 0,
     displayName: '铁盾',
   },
-  'green-slim': {
+  'green-slime': {
     life: 35,
     atk: 18,
     def: 1,
     gold: 1,
     displayName: '绿史莱姆',
   },
-  'red-slim': {
+  'red-slime': {
     life: 45,
     atk: 20,
     def: 2,
@@ -227,6 +227,20 @@ const articleData: ArticleProperty = {
     gold: 30,
     displayName: '骷髅队长',
   },
+  'magic-sergeant': {
+    life: 100,
+    atk: 65,
+    def: 15,
+    gold: 30,
+    displayName: '魔法警卫',
+  },
+  'magic-sergeant-Zeno': {
+    life: 100,
+    atk: 65,
+    def: 15,
+    gold: 30,
+    displayName: '魔王',
+  }
 };
 interface TreasureData {
   [key: string]: Treasure;

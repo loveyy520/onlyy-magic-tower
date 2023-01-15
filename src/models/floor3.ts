@@ -11,6 +11,7 @@ import { FloorState } from '@/types';
 const delay = (time: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), time));
 
 const state: FloorState = {
+  floorNumber: 3,
   walls: [
     {
       id: 'wall-3-1',
@@ -99,13 +100,13 @@ const state: FloorState = {
   monsters: [
     {
       id: 'monster-3-1',
-      name: 'green-slim',
+      name: 'green-slime',
       type: 'monster',
       positions: [[7, 7]],
     },
     {
       id: 'monster-3-2',
-      name: 'red-slim',
+      name: 'red-slime',
       type: 'monster',
       positions: [[8, 2]],
     },
@@ -201,6 +202,7 @@ const state: FloorState = {
       positions: [[11, 8]],
     },
   ],
+  accidentPositions: [[5, 3]]
 };
 
 export const floor3 = {

@@ -6,9 +6,10 @@
  * @FilePath: \magic-tower\src\types\floors.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { WallType, WeakWallType, DoorType, StairType, MonsterType, ArticleType, NpcType, MagicStore } from './index';
+import { WallType, WeakWallType, DoorType, StairType, MonsterType, ArticleType, NpcType, MagicStore, Position } from './index';
 
 export interface FloorState {
+  floorNumber: number;
   walls: WallType[];
   weakWalls: WeakWallType[];
   doors: DoorType[];
@@ -17,6 +18,7 @@ export interface FloorState {
   articles: ArticleType[];
   npcs: NpcType[];
   magicStore?: MagicStore;
+  accidentPositions?: Position[];
 }
 
 export interface Goods {

@@ -99,11 +99,11 @@
 }
 
 /* 绿史莱姆 */
-.green-slim {
+.green-slime {
   background-position: 0% -0.2%;
 }
 
-.red-slim {
+.red-slime {
   background-position: 33% -0.2%;
 }
 
@@ -134,4 +134,14 @@
 
 .skeleton-captain {
   background-position: 44% 6%;
+}
+
+/* 魔法警卫 */
+.magic-sergeant {
+  background-position: 66.5% 31.3%;
+}
+
+/* 魔王齐诺 */
+.magic-sergeant-Zeno {
+  background-position: 88.5% 31.3%;
 }

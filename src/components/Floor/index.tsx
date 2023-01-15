@@ -33,7 +33,15 @@ interface Props {
 }
 
 export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
-  const [dialogVisible, toggleDialog] = useState(true);
+  const [dialogVisible, toggleDialog] = useState(false);
+  const initNpc = (): NpcType | undefined => undefined;
+  const [currentNpc, setNpcState] = useState(initNpc);
+  const [onFinishTalking, setFinishTalking] = useState<Function>(() => () => null)
+  const setNpc = (NPC: NpcType, onFinishTalking?: Function): void => {
+    setNpcState(NPC);
+    setFinishTalking(onFinishTalking!)
+    !dialogVisible && toggleDialog(true);
+  };
   // const [floor, setFloor] = useState(1);
   const [floorState, { update: updateFloorState }] = store.useModel(`floor${warriorState.floor}`);
   const { walls, weakWalls, monsters, doors, stairs, articles, npcs, magicStore } = floorState;
@@ -46,14 +54,8 @@ export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
     ...monsters,
     ...npcs,
   ];
-
-  const initNpc = (): NpcType | undefined => undefined;
-  const [currentNpc, setNpcState] = useState(initNpc);
-
-  const setNpc = (NPC: NpcType): void => {
-    setNpcState(NPC);
-    !dialogVisible && toggleDialog(true);
-  };
+  const [isDark, setDark] = useState(false);
+  const [isDark2Light, setDark2Light] = useState(false)
   const calcPosition = (startPosition: Position, e: TouchEvent): Position => {
     const [x, y] = startPosition;
     let { clientX, clientY } = e.touches[0];
@@ -78,9 +80,9 @@ export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
   const handleFloorClick = (e: TouchEvent) => {
     if (dialogVisible) return;
     const newPosition = calcPosition(warriorState.position, e);
-    handleMove(newPosition, floorState, warriorState, updateFloorState, updateWarrior, setNpc);
+    handleMove(newPosition, floorState, warriorState, updateFloorState, updateWarrior, setNpc, setDark, setDark2Light);
   };
-  return (
+  return (<>
     <View
       className={styles.floor}
       onClick={handleFloorClick}
@@ -104,17 +106,25 @@ export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
       </>
       {
         dialogVisible &&
-          <Dialog onContinue={toggleDialog} NPC={currentNpc} />
+        <Dialog onContinue={toggleDialog} NPC={currentNpc} onFinished={onFinishTalking} />
       }
       {
         magicStore &&
-          <MagicStore
-            unitSize={unitSize}
-            positions={magicStore.positions}
-          />
+        <MagicStore
+          unitSize={unitSize}
+          positions={magicStore.positions}
+        />
       }
     </View>
-  );
+    <View
+      className={
+        [
+          isDark ? styles.dark : styles.light,
+          isDark2Light ? styles.dark2light : ''
+        ]
+      }
+    ></View>
+  </>);
 }
 
 export default Floor;

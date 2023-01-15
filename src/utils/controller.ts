@@ -1,5 +1,11 @@
-import { NpcType } from './../types/articles';
-import { MagicStore } from './../types/floors';
+import { Position } from './../types/articles';
+/* @Author: loveyy520 201357337@qq.com
+ * @Date: 2023-01-01 11:27:30
+ * @LastEditors: loveyy520 201357337@qq.com
+ * @LastEditTime: 2023-01-02 01:49:55
+ * @FilePath: \magic-tower\src\utils\controller.ts
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 import {
   Properties,
   HandleMove,
@@ -21,23 +27,24 @@ import {
   UpdateFloors,
   WarriorState,
   DialogContent,
-  Position,
   RaxSetState,
   UpdateWarrior,
+  MagicStore,
+  NpcType,
+  HandleAccident,
+  HandleFloorAcd,
+  FloorState,
+  MonsterType
 } from '@/types';
-/* @Author: loveyy520 201357337@qq.com
- * @Date: 2023-01-01 11:27:30
- * @LastEditors: loveyy520 201357337@qq.com
- * @LastEditTime: 2023-01-02 01:49:55
- * @FilePath: \magic-tower\src\utils\controller.ts
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 import propertyData from '@/article_property';
 
 let updateFloorState: UpdateFloors<number>;
 let updateWarriorState: UpdateWarrior;
-let setNpc: RaxSetState<ArticleType | undefined>;
+let setNpc: (npc: NpcType, callback?: Function) => void;
 let targetPosition: Position;
+let currentFloorState: FloorState;
+let setDark: RaxSetState<boolean>;
+let setDark2Light: RaxSetState<boolean>;
 
 export const handleMove: HandleMove = (
   position,
@@ -46,6 +53,8 @@ export const handleMove: HandleMove = (
   updateFloors,
   updateWarrior,
   setDialogContent,
+  setFloorDark,
+  setFloorDark2Light
 ) => {
   targetPosition = [...position];
   const obstacleMap = getObstacleMap(floorState);
@@ -53,6 +62,9 @@ export const handleMove: HandleMove = (
   updateWarriorState !== updateWarrior && (updateWarriorState = updateWarrior); // moveTo需要用到，因此先行赋值
   updateFloorState !== updateFloors && (updateFloorState = updateFloors);
   setNpc !== setDialogContent && (setNpc = setDialogContent);
+  currentFloorState !== floorState && (currentFloorState = floorState);
+  setDark !== setFloorDark && (setDark = setFloorDark);
+  setDark2Light !== setFloorDark2Light && (setDark2Light = setFloorDark2Light)
   if (isValid) return moveTo(position);
   const obstacleHandlers = getObstacleHandlers();
   Object.keys(obstacleHandlers).includes(obstacleType!) &&
@@ -85,8 +97,116 @@ const validatePosition: ValidatePosition = (position, obstacleMap) => {
 };
 
 const moveTo: MoveTo = (position) => {
-  updateWarriorState({ position, msg: '' });
+  updateWarriorState({ position, msg: '' })
+  currentFloorState && handleAccident(position)
 };
+
+const handleAccident: HandleAccident = (position, floorState?) => {
+  currentFloorState = floorState || currentFloorState
+  const { accidentPositions, floorNumber } = currentFloorState!
+  if (!accidentPositions || !accidentPositions.length) return
+  const index = getIndex(position, accidentPositions!)
+  
+  if (index < 0) return
+  const leftAcdPositions = accidentPositions!.filter((p, i) => i !== index)
+  
+  updateFloorState(<Partial<FloorState>>{
+    accidentPositions: leftAcdPositions
+  })
+  const accidentHandlers = {
+    3: handleFloor3Acd,
+    8: handleFloor8Acd,
+    10: handleFloor10Acd,
+  }
+  accidentHandlers[floorNumber](position, currentFloorState)
+}
+
+const isIn = (p: Position, positions: Position[]): boolean => positions.some(([x, y]) => x === p[0] && y === p[1])
+const getIndex = (p: Position, positions: Position[]): number => positions.findIndex(([x, y]) => x === p[0] && y === p[1])
+
+const handleFloor3Acd: HandleFloorAcd = (position, {monsters, accidentPositions}) => {
+  const originalMonsters = [...monsters]
+  updateFloorState({
+    monsters: [
+      ...originalMonsters,
+      // 突然出现4魔法警卫  1魔王,
+      {
+        id: 'monster-2-acd1',
+        name: 'magic-sergeant',
+        type: 'monster',
+        positions: [
+          [4, 3], [6, 3],
+          [5, 2], [5, 4]
+        ]
+      },
+      {
+        id: 'monster-2-acd2',
+        name: 'magic-sergeant-Zeno',
+        type: 'monster',
+        positions: [
+          [5, 5]
+        ]
+      }
+    ],
+  })
+  // setNpc() 设置和魔王的对话
+  const Zeno: NpcType = {
+    id: 'magic-sergeant-Zeno',
+    name: 'magic-sergeant-Zeno',
+    type: 'npc',
+    positions: [[5, 5]],
+    dialogContent: {
+      conversations: [
+        '欢迎来到魔塔，你是第一百位挑战者。',
+        '你若能打败我所有的手下，我就与你一对一决斗。',
+        '现在，你必须接受我的安排。'
+      ],
+    },
+    articleType: 'permanent',
+  };
+  const onFinished = () => () => {
+    setDark(true)
+    updateFloorState({
+      monsters: originalMonsters
+    });
+    const thief: NpcType = {
+      id: 'thief-acd',
+      name: 'thief',
+      type: 'npc',
+      positions: [[5, 5]],
+      dialogContent: {
+        conversations: [
+          '喂。。。',
+          '喂，醒醒。。。',
+        ],
+      },
+      articleType: 'permanent',
+    };
+    setTimeout(() => {
+      updateWarriorState({
+        floor: 2,
+        position: [4, 5],
+        properties: {
+          life: 400,
+          attack: 10,
+          defense: 10,
+          gold: 4
+        }
+      });
+      setNpc(thief, () => () => setDark2Light(true))
+    }, 1000);
+  }
+  // 结束对话时的钩子
+  setNpc(Zeno, onFinished);
+}
+
+const handleFloor8Acd: HandleFloorAcd = (position, accidentPositions) => {
+
+}
+
+const handleFloor10Acd: HandleFloorAcd = (position, accidentPositions) => {
+
+}
 
 const getObstacleHandlers: GetObstacleHandlers = () => ({
   wall: handleWall,
@@ -101,7 +221,7 @@ const getObstacleHandlers: GetObstacleHandlers = () => ({
 
 const hasObstacle: HasObstacle = ([targetX, targetY], obstacles) => {
   if (!obstacles) return [false];
-  if (obstacles.id === 'magic-store') return hasMagicStore([targetX, targetY], obstacles);
+  if ((obstacles as MagicStore).id === 'magic-store') return hasMagicStore([targetX, targetY], obstacles);
   const allObstacles = (obstacles as Obstacle[]).reduce<Obstacle[]>((pre, cur) => {
     const { positions } = cur;
     pre.push(
@@ -128,10 +248,10 @@ const hasMagicStore: HasObstacle = ([targetX, targetY], obstacles: MagicStore) =
 const handleWall: HandleArticle = (wall) => {
   setMessage('一堵墙挡在了你面前.');
 };
-const handleWeakWall: HandleArticle = (weakWall, floorState, warriorState) => {
+const handleWeakWall: HandleArticle = (weakWall: ArticleType, floorState, warriorState) => {
   removeArticle(weakWall, floorState);
 };
-const handleDoor: HandleArticle = (door, floorState, warriorState) => {
+const handleDoor: HandleArticle = (door: ArticleType, floorState, warriorState) => {
   const msgMap = {
     yellow: ['你缺少1把黄钥匙.', '你消耗了1把黄钥匙打开了门.'],
     blue: ['你缺少1把蓝钥匙.', '你消耗了1把蓝钥匙打开了门.'],
@@ -152,7 +272,7 @@ const handleDoor: HandleArticle = (door, floorState, warriorState) => {
     msg: msgMap[doorType!][1],
   });
 };
-const handleStair: HandleArticle = (stair, floorState, warriorState) => {
+const handleStair: HandleArticle = (stair:  ArticleType, floorState, warriorState) => {
   updateWarriorState({
     position: stair.positions[0],
   });
@@ -167,7 +287,7 @@ const handleStair: HandleArticle = (stair, floorState, warriorState) => {
     updateWarriorState(updatedData);
   }, 0);
 };
-const handleMonster: HandleArticle = async (monster, floorState, warriorState) => {
+const handleMonster: HandleArticle = async (monster: ArticleType, floorState, warriorState) => {
   const { atk, def, life, gold, displayName } = propertyData[monster.name] as Property;
   const { attack, defense, life: warriorLife } = warriorState.properties;
   const damage = attack - def;
@@ -185,9 +305,9 @@ const handleMonster: HandleArticle = async (monster, floorState, warriorState) =
     warriorProperty: warriorState.properties,
   };
   await fight(fightingParams);
-  removeArticle(monster, floorState);
+  removeArticle(<ArticleType>monster, floorState);
 };
-const handleNPC: HandleArticle = (NPC, floorState, warriorState) => {
+const handleNPC: HandleArticle = (NPC: ArticleType, floorState, warriorState) => {
   NPC.dialogContent && setNpc(NPC);
 };
 const handleArticle: HandleArticle = (article, floorState, warriorState) => {
@@ -198,7 +318,7 @@ const handleArticle: HandleArticle = (article, floorState, warriorState) => {
   }
   removeArticle(article, floorState);
 };
-const handleMagicStore: HandleArticle = (magicStore, floorState, warriorState) => {
+const handleMagicStore: HandleArticle = (magicStore: MagicStore, floorState, warriorState) => {
   const {
     positions: [p1, [x, y]],
     selections,

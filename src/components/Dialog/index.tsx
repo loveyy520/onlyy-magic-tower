@@ -13,9 +13,10 @@ import { DialogContent, Goods, NpcOwn, NpcType, Removal, WarriorState } from '@/
 interface DialogProps {
   onContinue: Function;
   NPC?: NpcType;
+  onFinished: Function;
 }
 
-export function Dialog({ onContinue, NPC }: DialogProps) {
+export function Dialog({ onContinue, NPC, onFinished }: DialogProps) {
   const initDialogContent = (): DialogContent => ({
     conversations: ['亲爱的勇士，欢迎进入魔塔！'],
     selections: [
@@ -53,8 +54,9 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
   const handleDialogContinue = () => {
     if (keepTalking(1)) return setIndex(contentIndex + 1);
     onContinue(false);
-    owns && handleOwns();
+    onFinished && onFinished()
     articleType === 'consumable' && removeArticle(NPC!, floorState);
+    owns && handleOwns();
   };
   const [warrior, { update: updateWarrior }] = store.useModel('warrior');
   const [floorState, { update: updateFloor }] = store.useModel(`floor${warrior.floor}`);
@@ -64,13 +66,6 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
     if (cost && gold < cost) return setMessage('你太穷了，买不起这个！', updateWarrior);
     const originalValue: number = warrior[type][subType];
     const costMsg = cost ? `，花费了${cost}金币` : '';
-    // let costMsg: string;
-    // if (cost) {
-    //   costMsg = `，花费了${cost}金币`;
-    // } else {
-    //   costMsg = '';
-    // }
-
     const param: Partial<WarriorState> = {
       [type]: {
         ...warrior[type],
@@ -82,6 +77,7 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
     updateWarrior(param);
 
     onContinue(false);
+    onFinished && onFinished()
   };
   const handleOwns = () => {
     owns?.forEach((own) => {
@@ -94,7 +90,6 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
         const { type, positions } = article;
         const originalArticles = floorState[`${type}s`][0]; // 游戏里只有walls
         const { positions: originalPositions } = originalArticles;
-        console.log(originalArticles);
 
         const leftPositions = originalPositions.filter(([x, y]) =>
           !positions.some(([pX, pY]) => x === pX && y === pY));
@@ -174,14 +169,14 @@ export function Dialog({ onContinue, NPC }: DialogProps) {
         }
         {
           !hasSelections &&
-            <Button
-              className={styles.button}
-              data-type="continue"
-              size="large"
-              type="normal"
-            >
-              继续
-            </Button>
+          <Button
+            className={styles.button}
+            data-type="continue"
+            size="large"
+            type="normal"
+          >
+            继续
+          </Button>
         }
       </View>
     </View>
