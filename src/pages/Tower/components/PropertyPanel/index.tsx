@@ -10,11 +10,11 @@ import { createElement } from 'rax';
 import View from 'rax-view';
 import Text from 'rax-text';
 import { Icon } from '@alifd/meet';
-import { Controller, Card, Message, Treasures } from '@/components';
+import { Controller, Card, Message, Treasures } from '..';
 
 import styles from './index.module.css';
 
-import { Properties, Keys } from '@/types';
+import { Properties, Keys } from '@/pages/Tower/types';
 
 interface Props {
   properties: Properties;

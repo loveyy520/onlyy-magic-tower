@@ -8,7 +8,7 @@
  */
 import { createElement } from 'rax';
 import View from 'rax-view';
-import { Position } from '@/types';
+import { Position } from '@/pages/Tower/types';
 
 import styles from './index.module.css';
 

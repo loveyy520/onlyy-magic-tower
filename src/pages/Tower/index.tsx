@@ -9,8 +9,8 @@
 import { createElement } from 'rax';
 import store from '@/store';
 import View from 'rax-view';
-import Floor from '@/components/Floor';
-import PropertyPanel from '@/components/PropertyPanel';
+import Floor from '@/pages/Tower/components/Floor';
+import PropertyPanel from './components/PropertyPanel';
 
 function Tower() {
   const [

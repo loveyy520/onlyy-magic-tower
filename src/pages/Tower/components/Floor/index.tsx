@@ -16,15 +16,15 @@ import {
   Article,
   Dialog,
   MagicStore,
-} from '@/components';
-import { handleMove } from '@/utils';
+} from '..';
+import { handleMove } from '@/pages/Tower/utils';
 
 import {
   ArticleType,
   Position,
   DialogContent,
   NpcType,
-} from '@/types';
+} from '@/pages/Tower/types';
 
 interface Props {
   warriorState: IRootState['warrior'];
@@ -36,10 +36,10 @@ export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
   const [dialogVisible, toggleDialog] = useState(false);
   const initNpc = (): NpcType | undefined => undefined;
   const [currentNpc, setNpcState] = useState(initNpc);
-  const [onFinishTalking, setFinishTalking] = useState<Function>(() => () => null)
+  const [onFinishTalking, setFinishTalking] = useState<Function>(() => () => null);
   const setNpc = (NPC: NpcType, onFinishTalking?: Function): void => {
     setNpcState(NPC);
-    setFinishTalking(onFinishTalking!)
+    setFinishTalking(onFinishTalking!);
     !dialogVisible && toggleDialog(true);
   };
   // const [floor, setFloor] = useState(1);
@@ -55,7 +55,7 @@ export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
     ...npcs,
   ];
   const [isDark, setDark] = useState(false);
-  const [isDark2Light, setDark2Light] = useState(false)
+  const [isDark2Light, setDark2Light] = useState(false);
   const calcPosition = (startPosition: Position, e: TouchEvent): Position => {
     const [x, y] = startPosition;
     let { clientX, clientY } = e.touches[0];
@@ -120,10 +120,10 @@ export function Floor({ warriorState, unitSize, updateWarrior }: Props) {
       className={
         [
           isDark ? styles.dark : styles.light,
-          isDark2Light ? styles.dark2light : ''
+          isDark2Light ? styles.dark2light : '',
         ]
       }
-    ></View>
+    />
   </>);
 }
 

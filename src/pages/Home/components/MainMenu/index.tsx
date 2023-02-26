@@ -11,41 +11,41 @@ import navigate from '@uni/navigate';
 import View from 'rax-view';
 import { Button } from '@alifd/meet';
 import styles from './index.module.css';
-import Logo from '../../components/Logo';
+import Logo from '../Logo';
 
 export function MainMenu() {
-  type ButtonType = 'normal' | 'primary' | 'warning' | 'inverse'
+  type ButtonType = 'normal' | 'primary' | 'warning' | 'inverse';
   const buttons = [
     {
       title: '开始游戏',
       type: 'normal' as ButtonType,
       onclick: async () => {
         await navigate.replace({
-          url: '/pages/Tower/index'
-        })
-      }
+          url: '/pages/Tower/index',
+        });
+      },
     },
     {
       title: '继续游戏',
       type: 'normal' as ButtonType,
       onclick: async () => {
         await navigate.push({
-          url: '/pages/tower'
-        })
-      }
+          url: '/pages/tower',
+        });
+      },
     },
     {
       title: '退出游戏',
       type: 'warning' as ButtonType,
-      onclick: () => null
+      onclick: () => null,
     },
-  ]
+  ];
   return (
     <View className={styles.homeContainer}>
       <Logo uri="//gw.alicdn.com/tfs/TB1MRC_cvb2gK0jSZK9XXaEgFXa-1701-1535.png" />
-      {buttons.map(button => <Button key={button.title} type={button.type} size="large" fullWidth onClick={button.onclick}>{button.title}</Button>)}
+      {buttons.map((button) => <Button key={button.title} type={button.type} size="large" fullWidth onClick={button.onclick}>{button.title}</Button>)}
     </View>
   );
 }
 
-export default MainMenu
+export default MainMenu;

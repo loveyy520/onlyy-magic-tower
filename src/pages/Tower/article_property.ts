@@ -6,7 +6,7 @@
  * @FilePath: \magic-tower\src\article_property.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { ArticleProperty, Treasure } from '@/types';
+import { ArticleProperty, Treasure } from '@/pages/Tower/types';
 
 const articleData: ArticleProperty = {
   'red-potion': [
@@ -240,7 +240,7 @@ const articleData: ArticleProperty = {
     def: 15,
     gold: 30,
     displayName: '魔王',
-  }
+  },
 };
 interface TreasureData {
   [key: string]: Treasure;

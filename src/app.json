@@ -2,12 +2,12 @@
   "routes": [
     {
       "path": "/",
-      "source": "pages/Tower/index",
+      "source": "pages/Tower/app",
       "miniappMain": true
     },
     {
       "path": "/tower",
-      "source": "pages/Home/index",
+      "source": "pages/Home/app",
       "window": {
         "title": "魔塔"
       }

@@ -1,12 +1,28 @@
 {
-  "targets": [
-    "web",
-    "miniapp",
-    "wechat-miniprogram"
-  ],
+  "targets": ["web", "miniapp", "wechat-miniprogram"],
   "webpack5": true,
-  "plugins": [
-    "build-plugin-fusion-mobile"
-  ],
-  "vendor": false
+  "plugins": ["build-plugin-fusion-mobile"],
+  "vendor": false,
+  "miniapp": {
+    "subPackages": {
+      "shareMemory": true
+    }
+  },
+  "wechat-miniprogram": {
+    "subPackages": true,
+    "nativePackage": {
+      "autoInstall": false,
+      "subPackages": [
+        {
+          "path": "/",
+          "source": "pages/Tower/app",
+          "miniappMain": true
+        },
+        {
+          "path": "/tower",
+          "source": "pages/Home/app"
+        }
+      ]
+    }
+  }
 }

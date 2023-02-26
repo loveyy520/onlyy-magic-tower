@@ -4,7 +4,7 @@
     "source": "index",
     "miniappPreloadRule": {
       "network": "wifi",
-      "packages": ["index"] 
+      "packages": []
     }
   }]
 }

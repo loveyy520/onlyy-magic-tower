@@ -9,7 +9,7 @@
 import { createElement, useState } from 'rax';
 import View from 'rax-view';
 import styles from './index.module.css';
-import { Position } from '@/types';
+import { Position } from '@/pages/Tower/types';
 
 interface WarriorProps {
   position: Position;

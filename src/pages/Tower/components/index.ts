@@ -10,8 +10,6 @@ export * from './Article';
 export * from './Card';
 export * from './Controller';
 export * from './Floor';
-export * from './Logo';
-export * from './MainMenu';
 export * from './PropertyPanel';
 export * from './Warrior';
 export * from './Card';

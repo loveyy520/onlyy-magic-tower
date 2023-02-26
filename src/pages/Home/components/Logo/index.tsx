@@ -17,10 +17,12 @@ interface LogoProps {
 export const Logo = (props: LogoProps) => {
   const { uri } = props;
   const source = { uri };
-  return <>
-    <Image className={styles.logo} source={source} />
-    <Text className={styles.name}>魔塔</Text>
-  </>;
+  return (
+    <>
+      <Image className={styles.logo} source={source} />
+      <Text className={styles.name}>魔塔</Text>
+    </>
+  );
 };
 
-export default Logo
+export default Logo;

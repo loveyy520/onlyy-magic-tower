@@ -1,4 +1,4 @@
-import { Position } from '@/types';
+import { Position } from '@/pages/Tower/types';
 import { createElement } from 'rax';
 import View from 'rax-view';
 

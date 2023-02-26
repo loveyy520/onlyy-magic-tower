@@ -1,4 +1,4 @@
-import { Position } from './../types/articles';
+import { Position } from '../types/articles';
 /* @Author: loveyy520 201357337@qq.com
  * @Date: 2023-01-01 11:27:30
  * @LastEditors: loveyy520 201357337@qq.com
@@ -26,7 +26,7 @@ import {
   Property,
   UpdateFloors,
   WarriorState,
-  DialogContent,
+  //   DialogContent,
   RaxSetState,
   UpdateWarrior,
   MagicStore,
@@ -34,9 +34,9 @@ import {
   HandleAccident,
   HandleFloorAcd,
   FloorState,
-  MonsterType
-} from '@/types';
-import propertyData from '@/article_property';
+  //   MonsterType,
+} from '../types';
+import propertyData from '../article_property';
 
 let updateFloorState: UpdateFloors<number>;
 let updateWarriorState: UpdateWarrior;
@@ -54,7 +54,7 @@ export const handleMove: HandleMove = (
   updateWarrior,
   setDialogContent,
   setFloorDark,
-  setFloorDark2Light
+  setFloorDark2Light,
 ) => {
   targetPosition = [...position];
   const obstacleMap = getObstacleMap(floorState);
@@ -64,7 +64,7 @@ export const handleMove: HandleMove = (
   setNpc !== setDialogContent && (setNpc = setDialogContent);
   currentFloorState !== floorState && (currentFloorState = floorState);
   setDark !== setFloorDark && (setDark = setFloorDark);
-  setDark2Light !== setFloorDark2Light && (setDark2Light = setFloorDark2Light)
+  setDark2Light !== setFloorDark2Light && (setDark2Light = setFloorDark2Light);
   if (isValid) return moveTo(position);
   const obstacleHandlers = getObstacleHandlers();
   Object.keys(obstacleHandlers).includes(obstacleType!) &&
@@ -97,35 +97,36 @@ const validatePosition: ValidatePosition = (position, obstacleMap) => {
 };
 
 const moveTo: MoveTo = (position) => {
-  updateWarriorState({ position, msg: '' })
-  currentFloorState && handleAccident(position)
+  updateWarriorState({ position, msg: '' });
+  currentFloorState && handleAccident(position);
 };
 
 const handleAccident: HandleAccident = (position, floorState?) => {
-  currentFloorState = floorState || currentFloorState
-  const { accidentPositions, floorNumber } = currentFloorState!
-  if (!accidentPositions || !accidentPositions.length) return
-  const index = getIndex(position, accidentPositions!)
-  
-  if (index < 0) return
-  const leftAcdPositions = accidentPositions!.filter((p, i) => i !== index)
-  
+  currentFloorState = floorState || currentFloorState;
+  const { accidentPositions, floorNumber } = currentFloorState!;
+  if (!accidentPositions || !accidentPositions.length) return;
+  const index = getIndex(position, accidentPositions!);
+
+  if (index < 0) return;
+  const leftAcdPositions = accidentPositions!.filter((p, i) => i !== index);
+
   updateFloorState(<Partial<FloorState>>{
-    accidentPositions: leftAcdPositions
-  })
+    accidentPositions: leftAcdPositions,
+  });
   const accidentHandlers = {
     3: handleFloor3Acd,
     8: handleFloor8Acd,
     10: handleFloor10Acd,
-  }
-  accidentHandlers[floorNumber](position, currentFloorState)
-}
+  };
+  accidentHandlers[floorNumber](position, currentFloorState);
+};
 
-const isIn = (p: Position, positions: Position[]): boolean => positions.some(([x, y]) => x === p[0] && y === p[1])
-const getIndex = (p: Position, positions: Position[]): number => positions.findIndex(([x, y]) => x === p[0] && y === p[1])
+const isIn = (p: Position, positions: Position[]): boolean => positions.some(([x, y]) => x === p[0] && y === p[1]);
+const getIndex = (p: Position, positions: Position[]): number =>
+  positions.findIndex(([x, y]) => x === p[0] && y === p[1]);
 
-const handleFloor3Acd: HandleFloorAcd = (position, {monsters, accidentPositions}) => {
-  const originalMonsters = [...monsters]
+const handleFloor3Acd: HandleFloorAcd = (position, { monsters, accidentPositions }) => {
+  const originalMonsters = [...monsters];
   updateFloorState({
     monsters: [
       ...originalMonsters,
@@ -135,20 +136,20 @@ const handleFloor3Acd: HandleFloorAcd = (position, {monsters, accidentPositions}
         name: 'magic-sergeant',
         type: 'monster',
         positions: [
-          [4, 3], [6, 3],
-          [5, 2], [5, 4]
-        ]
+          [4, 3],
+          [6, 3],
+          [5, 2],
+          [5, 4],
+        ],
       },
       {
         id: 'monster-2-acd2',
         name: 'magic-sergeant-Zeno',
         type: 'monster',
-        positions: [
-          [5, 5]
-        ]
-      }
+        positions: [[5, 5]],
+      },
     ],
-  })
+  });
   // setNpc() 设置和魔王的对话
   const Zeno: NpcType = {
     id: 'magic-sergeant-Zeno',
@@ -159,15 +160,15 @@ const handleFloor3Acd: HandleFloorAcd = (position, {monsters, accidentPositions}
       conversations: [
         '欢迎来到魔塔，你是第一百位挑战者。',
         '你若能打败我所有的手下，我就与你一对一决斗。',
-        '现在，你必须接受我的安排。'
+        '现在，你必须接受我的安排。',
       ],
     },
     articleType: 'permanent',
   };
   const onFinished = () => () => {
-    setDark(true)
+    setDark(true);
     updateFloorState({
-      monsters: originalMonsters
+      monsters: originalMonsters,
     });
     const thief: NpcType = {
       id: 'thief-acd',
@@ -175,10 +176,7 @@ const handleFloor3Acd: HandleFloorAcd = (position, {monsters, accidentPositions}
       type: 'npc',
       positions: [[5, 5]],
       dialogContent: {
-        conversations: [
-          '喂。。。',
-          '喂，醒醒。。。',
-        ],
+        conversations: ['喂。。。', '喂，醒醒。。。'],
       },
       articleType: 'permanent',
     };
@@ -190,23 +188,19 @@ const handleFloor3Acd: HandleFloorAcd = (position, {monsters, accidentPositions}
           life: 400,
           attack: 10,
           defense: 10,
-          gold: 4
-        }
+          gold: 4,
+        },
       });
-      setNpc(thief, () => () => setDark2Light(true))
+      setNpc(thief, () => () => setDark2Light(true));
     }, 1000);
-  }
+  };
   // 结束对话时的钩子
   setNpc(Zeno, onFinished);
-}
+};
 
-const handleFloor8Acd: HandleFloorAcd = (position, accidentPositions) => {
+const handleFloor8Acd: HandleFloorAcd = (position, accidentPositions) => {};
 
-}
-
-const handleFloor10Acd: HandleFloorAcd = (position, accidentPositions) => {
-
-}
+const handleFloor10Acd: HandleFloorAcd = (position, accidentPositions) => {};
 
 const getObstacleHandlers: GetObstacleHandlers = () => ({
   wall: handleWall,
@@ -272,7 +266,7 @@ const handleDoor: HandleArticle = (door: ArticleType, floorState, warriorState) 
     msg: msgMap[doorType!][1],
   });
 };
-const handleStair: HandleArticle = (stair:  ArticleType, floorState, warriorState) => {
+const handleStair: HandleArticle = (stair: ArticleType, floorState, warriorState) => {
   updateWarriorState({
     position: stair.positions[0],
   });

@@ -13,7 +13,7 @@ import { Icon } from '@alifd/meet';
 
 import styles from './index.module.css';
 
-import { Properties, Keys } from '@/types';
+import { Properties, Keys } from '@/pages/Tower/types';
 
 interface Props {
   properties: Properties;

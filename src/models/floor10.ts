@@ -6,7 +6,7 @@
  * @FilePath: \magic-tower\src\models\floors.ts
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
-import { FloorState } from '@/types';
+import { FloorState } from '@/pages/Tower/types';
 
 const delay = (time: number) => new Promise<void>((resolve) => setTimeout(() => resolve(), time));
 
@@ -199,10 +199,16 @@ const state: FloorState = {
   npcs: [],
   accidentPositions: [
     [6, 4],
-    [1, 9], [2, 9], [3, 9],[2, 8],
-    [11, 9], [10, 9], [9, 9], [10, 8],
-    [6, 11]
-  ]
+    [1, 9],
+    [2, 9],
+    [3, 9],
+    [2, 8],
+    [11, 9],
+    [10, 9],
+    [9, 9],
+    [10, 8],
+    [6, 11],
+  ],
 };
 
 export const floor10 = {

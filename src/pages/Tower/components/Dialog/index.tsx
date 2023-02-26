@@ -4,11 +4,11 @@ import Text from 'rax-text';
 import { Button } from '@alifd/meet';
 
 import store from '@/store';
-import { setMessage, removeArticle, gainArticle } from '@/utils';
+import { setMessage, removeArticle, gainArticle } from '@/pages/Tower/utils';
 
 import styles from './index.module.css';
 
-import { DialogContent, Goods, NpcOwn, NpcType, Removal, WarriorState } from '@/types';
+import { DialogContent, Goods, NpcOwn, NpcType, Removal, WarriorState } from '@/pages/Tower/types';
 
 interface DialogProps {
   onContinue: Function;
